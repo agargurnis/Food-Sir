@@ -16,13 +16,11 @@ class OnboardingCell: UICollectionViewCell {
                 return
             }
             
-            //titleImageView.text = onboardingScreen.onboardHeaderText
+            titleView.text = ""
             
             let imageName = onboardingScreen.imageName
-            let titleImageName = onboardingScreen.onboardTitleImageName
             
             imageView.image = UIImage(named: imageName)
-            titleImageView.image = UIImage(named: titleImageName)
             
             let color = UIColor(white: 0.2, alpha: 1)
             let attributedText = NSMutableAttributedString(string: onboardingScreen.onboardHeaderText, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor: color])
@@ -39,23 +37,15 @@ class OnboardingCell: UICollectionViewCell {
         }
     }
     
-//    let titleView: UITextView = {
-//        let title = UITextView()
-//        title.text = "Share"
-//        title.textAlignment = .center
-//        title.font = UIFont.boldSystemFont(ofSize: 18)
-//        title.contentInset = UIEdgeInsetsMake(15, 0, 0, 0)
-//        title.isEditable = false
-//        title.backgroundColor = .white
-//        return title
-//    }()
-    
-    let titleImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(named: "letterS")
-        iv.contentMode = .scaleAspectFit
-        //iv.clipsToBounds = true
-        return iv
+    let titleView: UITextView = {
+        let title = UITextView()
+        title.text = "Share"
+        title.textAlignment = .center
+        title.font = UIFont.boldSystemFont(ofSize: 18)
+        title.contentInset = UIEdgeInsetsMake(15, 0, 0, 0)
+        title.isEditable = false
+        title.backgroundColor = .white
+        return title
     }()
     
     let imageView: UIImageView = {
@@ -87,18 +77,13 @@ class OnboardingCell: UICollectionViewCell {
     func setupViews() {
         addSubview(imageView)
         addSubview(textView)
-        addSubview(titleImageView)
+        addSubview(titleView)
         
-        _ = titleImageView.anchor(safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: imageView.topAnchor, right: safeAreaLayoutGuide.rightAnchor, topConstant: 5, leftConstant: 0, bottomConstant: 5, rightConstant: 0, widthConstant: 0, heightConstant: 30)
+        _ = titleView.anchor(safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, topConstant: 5, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 35)
         
-        _ = imageView.anchor(titleImageView.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: textView.topAnchor, right: safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+        _ = imageView.anchor(titleView.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: textView.topAnchor, right: safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
         _ = textView.anchor(nil, left: safeAreaLayoutGuide.leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 170)
-        
-//        addConstraintsWithFormat(format: "H:|[v0]|", views: titleView)
-//        addConstraintsWithFormat(format: "V:|[v0(60)][v1][v2(160)]|", views: titleView, imageView, textView)
-//        addConstraintsWithFormat(format: "H:|[v0]|", views: imageView)
-//        addConstraintsWithFormat(format: "H:|-16-[v0]-16-|", views: textView)
         
     }
     

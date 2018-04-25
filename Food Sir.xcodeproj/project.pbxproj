@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		22E3CD3E55FB0A7CE4AC4AAE /* Pods_Food_Sir.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B4F7FFABA251D77909EAAF /* Pods_Food_Sir.framework */; };
 		BA86658F2086349E00CFA679 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA86658E2086349E00CFA679 /* AppDelegate.swift */; };
-		BA8665912086349E00CFA679 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8665902086349E00CFA679 /* ViewController.swift */; };
+		BA8665912086349E00CFA679 /* SirViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8665902086349E00CFA679 /* SirViewController.swift */; };
 		BA8665942086349E00CFA679 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA8665922086349E00CFA679 /* Main.storyboard */; };
 		BA8665962086349F00CFA679 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA8665952086349F00CFA679 /* Assets.xcassets */; };
 		BA8665992086349F00CFA679 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA8665972086349F00CFA679 /* LaunchScreen.storyboard */; };
@@ -28,7 +28,7 @@
 		07564DBC10A134DEB48CB108 /* Pods-Food Sir.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Food Sir.release.xcconfig"; path = "Pods/Target Support Files/Pods-Food Sir/Pods-Food Sir.release.xcconfig"; sourceTree = "<group>"; };
 		BA86658B2086349E00CFA679 /* Food Sir.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food Sir.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA86658E2086349E00CFA679 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BA8665902086349E00CFA679 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BA8665902086349E00CFA679 /* SirViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SirViewController.swift; sourceTree = "<group>"; };
 		BA8665932086349E00CFA679 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BA8665952086349F00CFA679 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA8665982086349F00CFA679 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 		BA8665A320863A1300CFA679 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BA8665902086349E00CFA679 /* ViewController.swift */,
+				BA8665902086349E00CFA679 /* SirViewController.swift */,
 				BA8665A420863D6300CFA679 /* OnboardingScreenController.swift */,
 				BA8665A620863D7C00CFA679 /* HomeController.swift */,
 				BA8665AA20863DEE00CFA679 /* LoginController.swift */,
@@ -296,7 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA86662D208F916B00CFA679 /* LoginCell.swift in Sources */,
-				BA8665912086349E00CFA679 /* ViewController.swift in Sources */,
+				BA8665912086349E00CFA679 /* SirViewController.swift in Sources */,
 				BA8665A2208638B100CFA679 /* Extensions.swift in Sources */,
 				BA8665AF20863E3300CFA679 /* OnboardingScreen.swift in Sources */,
 				BA8665A920863DB300CFA679 /* UserDefaults.swift in Sources */,

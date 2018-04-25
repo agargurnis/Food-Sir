@@ -10,6 +10,7 @@ import UIKit
 
 protocol LoginControllerDelegte: class {
     func finishLoggingIn()
+    func keyboardShow()
 }
 
 class LoginController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, LoginControllerDelegte {
@@ -121,8 +122,7 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
     
     @objc func keyboardShow() {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            let y: CGFloat = UIDevice.current.orientation.isLandscape ? -100 : -50
-            self.view.frame = CGRect(x: 0, y: y, width: self.view.frame.width, height: self.view.frame.height)
+            self.view.frame = CGRect(x: 0, y: -205, width: self.view.frame.width, height: self.view.frame.height)
         }, completion: nil)
     }
     
