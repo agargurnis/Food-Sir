@@ -22,6 +22,7 @@
 		BA8665B120863E5000CFA679 /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8665B020863E5000CFA679 /* OnboardingCell.swift */; };
 		BA86662B208F680600CFA679 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA86662A208F680500CFA679 /* GoogleService-Info.plist */; };
 		BA86662D208F916B00CFA679 /* LoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA86662C208F916B00CFA679 /* LoginCell.swift */; };
+		BA86662F2092086F00CFA679 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA86662E2092086F00CFA679 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		BA8665B020863E5000CFA679 /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
 		BA86662A208F680500CFA679 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BA86662C208F916B00CFA679 /* LoginCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCell.swift; sourceTree = "<group>"; };
+		BA86662E2092086F00CFA679 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D090327A6381FBBB839F4AD9 /* Pods-Food Sir.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Food Sir.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Food Sir/Pods-Food Sir.debug.xcconfig"; sourceTree = "<group>"; };
 		D5B4F7FFABA251D77909EAAF /* Pods_Food_Sir.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Food_Sir.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -125,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				BA8665AE20863E3300CFA679 /* OnboardingScreen.swift */,
+				BA86662E2092086F00CFA679 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				BA86658F2086349E00CFA679 /* AppDelegate.swift in Sources */,
 				BA8665A720863D7C00CFA679 /* HomeController.swift in Sources */,
 				BA8665AB20863DEE00CFA679 /* LoginController.swift in Sources */,
+				BA86662F2092086F00CFA679 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

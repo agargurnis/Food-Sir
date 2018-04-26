@@ -7,19 +7,22 @@
 //
 
 import UIKit
+import Firebase
 
 protocol LoginControllerDelegte: class {
     func finishLoggingIn()
-    func keyboardShow()
+    func handleRegister()
+    func handleSelectProfileImageView()
 }
 
-class LoginController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, LoginControllerDelegte {
+class LoginController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, LoginControllerDelegte, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let cellId = "cellId"
     let loginCellId = "loginCellId"
     var pageControlBottomAnchor: NSLayoutConstraint?
     var skipButtonTopAnchor: NSLayoutConstraint?
     var nextButtonTopAnchor: NSLayoutConstraint?
+    var whiteBckgroundViewTopAnchor: NSLayoutConstraint?
     
     let onboardingScreens: [OnboardingScreen] = {
         let firstScreen = OnboardingScreen(onboardTitleImageName: "letterS", onboardHeaderText: "Share what you made.", onboardBodyText: "Share with the world what you are eating, self made or by someone else. And maybe you'll inspire someone to make the same dish!", imageName: "shareScreen")
@@ -29,10 +32,15 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         return [firstScreen, secondScreen, thirdScreen]
     }()
     
+    var loginCell: LoginCell = {
+        let cell = LoginCell()
+        return cell
+    }()
+    
     lazy var pageControl: UIPageControl = {
         let pc = UIPageControl()
         pc.pageIndicatorTintColor = .lightGray
-        pc.currentPageIndicatorTintColor = UIColor(red: 247/255, green: 154/255, blue: 27/255, alpha: 1)
+        pc.currentPageIndicatorTintColor = .appOrange
         pc.numberOfPages = self.onboardingScreens.count + 1
         return pc
     }()
@@ -40,7 +48,7 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
     lazy var skipButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Skip", for: .normal)
-        button.setTitleColor(UIColor(red: 247/255, green: 154/255, blue: 27/255, alpha: 1), for: .normal)
+        button.setTitleColor(.appOrange, for: .normal)
         button.addTarget(self, action: #selector(skip), for: .touchUpInside)
         return button
     }()
@@ -49,7 +57,7 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         let button = UIButton(type: .system)
         button.setTitle("Next", for: .normal)
         button.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
-        button.setTitleColor(UIColor(red: 247/255, green: 154/255, blue: 27/255, alpha: 1), for: .normal)
+        button.setTitleColor(.appOrange, for: .normal)
         return button
     }()
     
@@ -65,15 +73,22 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         return cv
     }()
     
+    let whiteBackgroundView: UIView = {
+        let iv = UIView()
+        iv.backgroundColor = .white
+        return iv
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        observeKeyboardNotifications()
         
         view.addSubview(collectionView)
         view.addSubview(pageControl)
         view.addSubview(skipButton)
         view.addSubview(nextButton)
+        view.addSubview(whiteBackgroundView)
+        
+        _ = whiteBackgroundView.anchor(collectionView.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 200)
         
         pageControlBottomAnchor = pageControl.anchor(nil, left: view.safeAreaLayoutGuide.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 30)[1]
         
@@ -106,24 +121,6 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         let indexPath = IndexPath(item: pageControl.currentPage + 1, section: 0)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         pageControl.currentPage += 1
-    }
-    
-    private func observeKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow), name: .UIKeyboardWillShow, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: .UIKeyboardWillHide, object: nil)
-    }
-    
-    @objc func keyboardHide() {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        }, completion: nil)
-    }
-    
-    @objc func keyboardShow() {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            self.view.frame = CGRect(x: 0, y: -205, width: self.view.frame.width, height: self.view.frame.height)
-        }, completion: nil)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -160,7 +157,7 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if indexPath.item == onboardingScreens.count {
-            let loginCell = collectionView.dequeueReusableCell(withReuseIdentifier: loginCellId, for: indexPath) as! LoginCell
+            loginCell = collectionView.dequeueReusableCell(withReuseIdentifier: loginCellId, for: indexPath) as! LoginCell
             loginCell.delegate = self
             return loginCell
         }
@@ -192,6 +189,103 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         DispatchQueue.main.async {
             self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             self.collectionView.reloadData()
+        }
+    }
+    
+    @objc func handleSelectProfileImageView() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        present(picker, animated: false) {
+            UIApplication.shared.keyWindow?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        }
+        //present(picker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        var selectedImageFromPicker: UIImage?
+        if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            selectedImageFromPicker = editedImage
+        } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            selectedImageFromPicker = originalImage
+        }
+        
+        if let selectedImage = selectedImageFromPicker {
+            loginCell.profileImageView.image = selectedImage
+        }
+        
+        dismiss(animated: true, completion: {
+            self.loginCell.profileImageContainerBottomAnchor?.constant = 0
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.loginCell.keyboardShow()
+                self.loginCell.layoutIfNeeded()
+            }, completion: nil)
+        })
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: false, completion: {
+            self.loginCell.profileImageContainerBottomAnchor?.constant = 0
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.loginCell.keyboardShow()
+                self.loginCell.layoutIfNeeded()
+            }, completion: nil)
+        })
+    }
+    
+    func handleLogin() {
+        guard let email = loginCell.emailTextField.text, let password = loginCell.passwordTextField.text else { return }
+        
+        Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
+            if error != nil {
+                print(error ?? "")
+                return
+            }
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func registerUserIntoDatabaseWithUID(uid: String, values: [String: AnyObject]) {
+        let ref = Database.database().reference()
+        let usersReference = ref.child("users").child(uid)
+        
+        usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
+            if err != nil {
+                print(err ?? "")
+                return
+            }
+            print("saved user seccess")
+            let user = User()
+            user.name = values["name"] as? String
+            user.email = values["email"] as? String
+            user.profileImageUrl = values ["profileImageUrl"] as? String
+            self.dismiss(animated: true, completion: nil)
+        })
+    }
+    
+    @objc func handleRegister() {
+        guard let email = loginCell.emailTextField.text, let password = loginCell.passwordTextField.text, let name = loginCell.nameTextField.text, let image = loginCell.profileImageView.image else { return }
+        Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
+            if error != nil {
+                print(error ?? "")
+                return
+            }
+            
+            guard let uid = user?.uid else { return }
+            let storageRef = Storage.storage().reference().child("profile_images").child("\(email).jpg")
+            
+            if let uploadData = UIImageJPEGRepresentation(image, 0.1) {
+                storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
+                    if error != nil {
+                        print(error ?? "")
+                        return
+                    }
+                    if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
+                        let values = ["name": name, "email": email, "profileImageUrl": profileImageUrl]
+                        self.registerUserIntoDatabaseWithUID(uid: uid, values: values as [String : AnyObject])
+                    }
+                })
+            }
         }
     }
     
