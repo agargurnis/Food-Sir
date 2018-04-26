@@ -11,7 +11,7 @@ import FBSDKLoginKit
 import Firebase
 import GoogleSignIn
 
-class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     weak var delegate: LoginControllerDelegte?
     var profileImageContainerBottomAnchor: NSLayoutConstraint?
@@ -41,12 +41,13 @@ class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDele
     let facebookLoginButton = FBSDKLoginButton()
     let googleLoginButton = GIDSignInButton()
     
-    let customLoginButton: UIButton = {
+    lazy var customLoginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setBackgroundImage(UIImage(named: "whiteButton"), for: .normal)
         button.setTitle("Sign in with Food Sir", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(handleFoodSirSignIn), for: .touchUpInside)
         return button
     }()
     
@@ -229,10 +230,24 @@ class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDele
 
     @objc func keyboardHide() {
         profileImageContainerBottomAnchor?.constant = -450
+        nameTextField.isHidden = false
+        profileImageView.isUserInteractionEnabled = true
+        registerButton.setTitle("Sign Up", for: .normal)
+        if profileImageView.image == UIImage(named: "loginCarrot") {
+            profileImageView.image = UIImage(named: "profileSlice")
+        }
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.window?.frame = CGRect(x: 0, y: 0, width: (self.window?.frame.width)!, height: (self.window?.frame.height)!)
             self.layoutIfNeeded()
         }, completion: nil)
+    }
+    
+    @objc func handleFoodSirSignIn() {
+        nameTextField.isHidden = true
+        emailTextField.becomeFirstResponder()
+        profileImageView.image = UIImage(named: "loginCarrot")
+        profileImageView.isUserInteractionEnabled = false
+        registerButton.setTitle("Sign In", for: .normal)
     }
     
     func setupSubviewAnchors() {

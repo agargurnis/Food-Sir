@@ -70,6 +70,7 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         cv.dataSource = self
         cv.delegate = self
         cv.isPagingEnabled = true
+        cv.keyboardDismissMode = .interactive
         return cv
     }()
     
@@ -217,7 +218,8 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         dismiss(animated: true, completion: {
             self.loginCell.profileImageContainerBottomAnchor?.constant = 0
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                self.loginCell.keyboardShow()
+                //self.loginCell.keyboardShow()
+                self.loginCell.nameTextField.becomeFirstResponder()
                 self.loginCell.layoutIfNeeded()
             }, completion: nil)
         })
@@ -227,7 +229,8 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         dismiss(animated: false, completion: {
             self.loginCell.profileImageContainerBottomAnchor?.constant = 0
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                self.loginCell.keyboardShow()
+                //self.loginCell.keyboardShow()
+                self.loginCell.nameTextField.becomeFirstResponder()
                 self.loginCell.layoutIfNeeded()
             }, completion: nil)
         })
