@@ -9,13 +9,11 @@
 /* Begin PBXBuildFile section */
 		22E3CD3E55FB0A7CE4AC4AAE /* Pods_Food_Sir.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B4F7FFABA251D77909EAAF /* Pods_Food_Sir.framework */; };
 		BA86658F2086349E00CFA679 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA86658E2086349E00CFA679 /* AppDelegate.swift */; };
-		BA8665912086349E00CFA679 /* SirViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8665902086349E00CFA679 /* SirViewController.swift */; };
 		BA8665942086349E00CFA679 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA8665922086349E00CFA679 /* Main.storyboard */; };
 		BA8665962086349F00CFA679 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA8665952086349F00CFA679 /* Assets.xcassets */; };
 		BA8665992086349F00CFA679 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA8665972086349F00CFA679 /* LaunchScreen.storyboard */; };
 		BA8665A2208638B100CFA679 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8665A1208638B100CFA679 /* Extensions.swift */; };
 		BA8665A520863D6300CFA679 /* OnboardingScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8665A420863D6300CFA679 /* OnboardingScreenController.swift */; };
-		BA8665A720863D7C00CFA679 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8665A620863D7C00CFA679 /* HomeController.swift */; };
 		BA8665A920863DB300CFA679 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8665A820863DB300CFA679 /* UserDefaults.swift */; };
 		BA8665AB20863DEE00CFA679 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8665AA20863DEE00CFA679 /* LoginController.swift */; };
 		BA8665AF20863E3300CFA679 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8665AE20863E3300CFA679 /* OnboardingScreen.swift */; };
@@ -23,20 +21,20 @@
 		BA86662B208F680600CFA679 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA86662A208F680500CFA679 /* GoogleService-Info.plist */; };
 		BA86662D208F916B00CFA679 /* LoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA86662C208F916B00CFA679 /* LoginCell.swift */; };
 		BA86662F2092086F00CFA679 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA86662E2092086F00CFA679 /* User.swift */; };
+		BA8666312093C76900CFA679 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8666302093C76900CFA679 /* CustomTabBarController.swift */; };
+		BA8666332093C85A00CFA679 /* InspirationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8666322093C85A00CFA679 /* InspirationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		07564DBC10A134DEB48CB108 /* Pods-Food Sir.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Food Sir.release.xcconfig"; path = "Pods/Target Support Files/Pods-Food Sir/Pods-Food Sir.release.xcconfig"; sourceTree = "<group>"; };
 		BA86658B2086349E00CFA679 /* Food Sir.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food Sir.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA86658E2086349E00CFA679 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BA8665902086349E00CFA679 /* SirViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SirViewController.swift; sourceTree = "<group>"; };
 		BA8665932086349E00CFA679 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BA8665952086349F00CFA679 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA8665982086349F00CFA679 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA86659A2086349F00CFA679 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA8665A1208638B100CFA679 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		BA8665A420863D6300CFA679 /* OnboardingScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreenController.swift; sourceTree = "<group>"; };
-		BA8665A620863D7C00CFA679 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		BA8665A820863DB300CFA679 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		BA8665AA20863DEE00CFA679 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		BA8665AE20863E3300CFA679 /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
@@ -44,6 +42,8 @@
 		BA86662A208F680500CFA679 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BA86662C208F916B00CFA679 /* LoginCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCell.swift; sourceTree = "<group>"; };
 		BA86662E2092086F00CFA679 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		BA8666302093C76900CFA679 /* CustomTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		BA8666322093C85A00CFA679 /* InspirationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspirationController.swift; sourceTree = "<group>"; };
 		D090327A6381FBBB839F4AD9 /* Pods-Food Sir.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Food Sir.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Food Sir/Pods-Food Sir.debug.xcconfig"; sourceTree = "<group>"; };
 		D5B4F7FFABA251D77909EAAF /* Pods_Food_Sir.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Food_Sir.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -115,10 +115,10 @@
 		BA8665A320863A1300CFA679 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BA8665902086349E00CFA679 /* SirViewController.swift */,
 				BA8665A420863D6300CFA679 /* OnboardingScreenController.swift */,
-				BA8665A620863D7C00CFA679 /* HomeController.swift */,
 				BA8665AA20863DEE00CFA679 /* LoginController.swift */,
+				BA8666302093C76900CFA679 /* CustomTabBarController.swift */,
+				BA8666322093C85A00CFA679 /* InspirationController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -299,14 +299,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA86662D208F916B00CFA679 /* LoginCell.swift in Sources */,
-				BA8665912086349E00CFA679 /* SirViewController.swift in Sources */,
 				BA8665A2208638B100CFA679 /* Extensions.swift in Sources */,
 				BA8665AF20863E3300CFA679 /* OnboardingScreen.swift in Sources */,
 				BA8665A920863DB300CFA679 /* UserDefaults.swift in Sources */,
 				BA8665A520863D6300CFA679 /* OnboardingScreenController.swift in Sources */,
+				BA8666312093C76900CFA679 /* CustomTabBarController.swift in Sources */,
+				BA8666332093C85A00CFA679 /* InspirationController.swift in Sources */,
 				BA8665B120863E5000CFA679 /* OnboardingCell.swift in Sources */,
 				BA86658F2086349E00CFA679 /* AppDelegate.swift in Sources */,
-				BA8665A720863D7C00CFA679 /* HomeController.swift in Sources */,
 				BA8665AB20863DEE00CFA679 /* LoginController.swift in Sources */,
 				BA86662F2092086F00CFA679 /* User.swift in Sources */,
 			);

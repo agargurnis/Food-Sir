@@ -10,14 +10,14 @@ import UIKit
 import Firebase
 
 protocol LoginControllerDelegte: class {
-    func finishLoggingIn()
+    func handleLogin()
     func handleRegister()
     func handleSelectProfileImageView()
 }
 
 class LoginController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, LoginControllerDelegte, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    let cellId = "cellId"
+    let onboardCellId = "onboardCellId"
     let loginCellId = "loginCellId"
     var pageControlBottomAnchor: NSLayoutConstraint?
     var skipButtonTopAnchor: NSLayoutConstraint?
@@ -27,7 +27,7 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
     let onboardingScreens: [OnboardingScreen] = {
         let firstScreen = OnboardingScreen(onboardTitleImageName: "letterS", onboardHeaderText: "Share what you made.", onboardBodyText: "Share with the world what you are eating, self made or by someone else. And maybe you'll inspire someone to make the same dish!", imageName: "shareScreen")
         let secondScreen = OnboardingScreen(onboardTitleImageName: "letterI", onboardHeaderText: "In need for inspiration?", onboardBodyText: "Browse through the most popular pictures or your selcted category to find what you are looking for.", imageName: "inspirationScreen")
-        let thirdScreen = OnboardingScreen(onboardTitleImageName: "letterR", onboardHeaderText: "Recommend the good stuff!", onboardBodyText: "May it be a restuarant you love, a new kitchen appliance or just a nice bottle of wine, let the world know what do you think is good!", imageName: "recommendScreen")
+        let thirdScreen = OnboardingScreen(onboardTitleImageName: "letterR", onboardHeaderText: "Recommend the good stuff!", onboardBodyText: "May it be a restuarant you love, a new kitchen appliance or just a nice bottle of wine, let the world know what do you think is good!", imageName: "recommendationScreen")
         
         return [firstScreen, secondScreen, thirdScreen]
     }()
@@ -99,7 +99,7 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         
         collectionView.anchorToTop(view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
         
-        collectionView.register(OnboardingCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(OnboardingCell.self, forCellWithReuseIdentifier: onboardCellId)
         collectionView.register(LoginCell.self, forCellWithReuseIdentifier: loginCellId)
     }
     
@@ -163,7 +163,7 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
             return loginCell
         }
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! OnboardingCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: onboardCellId, for: indexPath) as! OnboardingCell
         
         let onboardingScreen = onboardingScreens[indexPath.item]
         cell.onboardingScreen = onboardingScreen
@@ -173,7 +173,7 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
     func finishLoggingIn() {
         let rootViewController = UIApplication.shared.keyWindow?.rootViewController
         guard let mainNavigationController = rootViewController as? OnboardingScreenController else { return }
-        mainNavigationController.viewControllers = [HomeController()]
+        mainNavigationController.viewControllers = [CustomTabBarController()]
         
         UserDefaults.standard.setIsLoggedIn(value: true)
         
@@ -200,7 +200,6 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         present(picker, animated: false) {
             UIApplication.shared.keyWindow?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
         }
-        //present(picker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -218,7 +217,6 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         dismiss(animated: true, completion: {
             self.loginCell.profileImageContainerBottomAnchor?.constant = 0
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                //self.loginCell.keyboardShow()
                 self.loginCell.nameTextField.becomeFirstResponder()
                 self.loginCell.layoutIfNeeded()
             }, completion: nil)
@@ -229,14 +227,13 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         dismiss(animated: false, completion: {
             self.loginCell.profileImageContainerBottomAnchor?.constant = 0
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                //self.loginCell.keyboardShow()
                 self.loginCell.nameTextField.becomeFirstResponder()
                 self.loginCell.layoutIfNeeded()
             }, completion: nil)
         })
     }
     
-    func handleLogin() {
+    @objc func handleLogin() {
         guard let email = loginCell.emailTextField.text, let password = loginCell.passwordTextField.text else { return }
         
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
@@ -244,7 +241,7 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
                 print(error ?? "")
                 return
             }
-            self.dismiss(animated: true, completion: nil)
+            self.finishLoggingIn()
         }
     }
     

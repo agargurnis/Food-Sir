@@ -43,7 +43,7 @@ class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDele
     
     lazy var customLoginButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setBackgroundImage(UIImage(named: "whiteButton"), for: .normal)
+        button.setBackgroundImage(UIImage(named: "sirButton"), for: .normal)
         button.setTitle("Sign in with Food Sir", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
         button.setTitleColor(.white, for: .normal)
@@ -58,7 +58,7 @@ class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDele
         return iv
     }()
     
-    let logoImageView: UIImageView = {
+    let signInImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "signInSlice")
         imageView.contentMode = .scaleAspectFill
@@ -105,12 +105,12 @@ class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDele
         return button
     }()
     
-    lazy var registerButton: UIButton = {
+    lazy var signUpInButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .appOrange
         button.setTitle("Sign Up", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.addTarget(delegate, action: #selector(LoginController.handleRegister), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleSignUpInButton), for: .touchUpInside)
         return button
     }()
     
@@ -196,11 +196,11 @@ class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDele
         addSubview(orImageView)
         addSubview(googleLoginButton)
         addSubview(facebookLoginButton)
-        addSubview(logoImageView)
+        addSubview(signInImageView)
         addSubview(nameTextField)
         addSubview(emailTextField)
         addSubview(passwordTextField)
-        addSubview(registerButton)
+        addSubview(signUpInButton)
         addSubview(customLoginButton)
         addSubview(profileImageContainer)
         
@@ -232,7 +232,7 @@ class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDele
         profileImageContainerBottomAnchor?.constant = -450
         nameTextField.isHidden = false
         profileImageView.isUserInteractionEnabled = true
-        registerButton.setTitle("Sign Up", for: .normal)
+        signUpInButton.setTitle("Sign Up", for: .normal)
         if profileImageView.image == UIImage(named: "loginCarrot") {
             profileImageView.image = UIImage(named: "profileSlice")
         }
@@ -242,12 +242,20 @@ class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDele
         }, completion: nil)
     }
     
+    @objc func handleSignUpInButton() {
+        if signUpInButton.currentTitle == "Sign Up" {
+            delegate?.handleRegister()
+        } else {
+            delegate?.handleLogin()
+        }
+    }
+    
     @objc func handleFoodSirSignIn() {
         nameTextField.isHidden = true
         emailTextField.becomeFirstResponder()
         profileImageView.image = UIImage(named: "loginCarrot")
         profileImageView.isUserInteractionEnabled = false
-        registerButton.setTitle("Sign In", for: .normal)
+        signUpInButton.setTitle("Sign In", for: .normal)
     }
     
     func setupSubviewAnchors() {
@@ -262,10 +270,10 @@ class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDele
         _ = profileImageView.anchor(nil, left: nil, bottom: profileImageContainer.bottomAnchor, right: nil, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 90, heightConstant: 90)
         profileImageView.centerXAnchor.constraint(equalTo: profileImageContainer.centerXAnchor).isActive = true
         
-        _ = logoImageView.anchor(centerYAnchor, left: nil, bottom: nil, right: nil, topConstant: -270, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 100, heightConstant: 100)
-        logoImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        _ = signInImageView.anchor(centerYAnchor, left: nil, bottom: nil, right: nil, topConstant: -270, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 100, heightConstant: 100)
+        signInImageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
-        _ = customLoginButton.anchor(logoImageView.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 32, bottomConstant: 0, rightConstant: 32, widthConstant: 0, heightConstant: 40)
+        _ = customLoginButton.anchor(signInImageView.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 32, bottomConstant: 0, rightConstant: 32, widthConstant: 0, heightConstant: 40)
         
         _ = googleLoginButton.anchor(customLoginButton.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, topConstant: 16, leftConstant: 29, bottomConstant: 0, rightConstant: 29, widthConstant: 0, heightConstant: 40)
         
@@ -279,7 +287,7 @@ class LoginCell: UICollectionViewCell, FBSDKLoginButtonDelegate, GIDSignInUIDele
         
         _ = passwordTextField.anchor(emailTextField.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, topConstant: 16, leftConstant: 32, bottomConstant: 0, rightConstant: 32, widthConstant: 0, heightConstant: 40)
         
-        _ = registerButton.anchor(passwordTextField.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, topConstant: 16, leftConstant: 32, bottomConstant: 0, rightConstant: 32, widthConstant: 0, heightConstant: 40)
+        _ = signUpInButton.anchor(passwordTextField.bottomAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, topConstant: 16, leftConstant: 32, bottomConstant: 0, rightConstant: 32, widthConstant: 0, heightConstant: 40)
         
     }
     

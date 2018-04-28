@@ -15,9 +15,8 @@ class OnboardingScreenController: UINavigationController {
         view.backgroundColor = .white
         
         if isLoggedIn() {
-            
-            let homeController = HomeController()
-            viewControllers = [homeController]
+            let customTabBarController = CustomTabBarController()
+            viewControllers = [customTabBarController]
         } else {
             perform(#selector(showLoginController), with: nil, afterDelay: 0.01)
         }
@@ -33,5 +32,6 @@ class OnboardingScreenController: UINavigationController {
             // perhaps we'll do something here later
         })
     }
+    
 }
 
