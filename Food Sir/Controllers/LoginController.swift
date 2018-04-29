@@ -96,9 +96,8 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
         skipButtonTopAnchor = skipButton.anchor(view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: nil, topConstant: -5, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 60, heightConstant: 50).first
         
         nextButtonTopAnchor = nextButton.anchor(view.safeAreaLayoutGuide.topAnchor, left: nil, bottom: nil, right: view.rightAnchor, topConstant: -5, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 60, heightConstant: 50).first
-        
-        collectionView.anchorToTop(view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
-        
+
+        _ = collectionView.anchor(view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         collectionView.register(OnboardingCell.self, forCellWithReuseIdentifier: onboardCellId)
         collectionView.register(LoginCell.self, forCellWithReuseIdentifier: loginCellId)
     }
@@ -254,7 +253,6 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
                 print(err ?? "")
                 return
             }
-            print("saved user seccess")
             let user = User()
             user.name = values["name"] as? String
             user.email = values["email"] as? String

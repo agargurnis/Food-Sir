@@ -17,9 +17,7 @@ class OnboardingCell: UICollectionViewCell {
             }
             
             titleView.text = ""
-            
             let imageName = onboardingScreen.imageName
-            
             imageView.image = UIImage(named: imageName)
             
             let color = UIColor(white: 0.2, alpha: 1)
