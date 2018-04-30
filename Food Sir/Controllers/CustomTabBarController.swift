@@ -17,7 +17,8 @@ class CustomTabBarController: UITabBarController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
         UITabBar.appearance().tintColor = .appOrange
         
-        let inspirationNavigationController = UINavigationController(rootViewController: UIViewController())
+        let inspirationController = InspirationController(collectionViewLayout: UICollectionViewFlowLayout())
+        let inspirationNavigationController = UINavigationController(rootViewController:inspirationController)
         inspirationNavigationController.title = "Inspire"
         inspirationNavigationController.tabBarItem.image = UIImage(named: "inspireIcon")
         
@@ -34,7 +35,7 @@ class CustomTabBarController: UITabBarController {
         profileNavigationController.title = "Profile"
         profileNavigationController.tabBarItem.image = UIImage(named: "profileIcon")
         
-        viewControllers = [shareNavigationController, inspirationNavigationController, recommendationNavigationController, profileNavigationController]
+        viewControllers = [inspirationNavigationController, shareNavigationController, recommendationNavigationController, profileNavigationController]
         
         tabBar.isTranslucent = false
         

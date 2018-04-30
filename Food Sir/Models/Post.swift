@@ -9,9 +9,12 @@
 import UIKit
 
 class Post {
-    var userName: String?
+    var profileName: String?
+    var userLocation: String?
     var postDescriptionText: String?
     var postImageName: String?
+    var profileImageName: String?
     var numberOfLikes: Int?
     var numberOfComments: Int?
+    var numberOfShares: Int?
 }

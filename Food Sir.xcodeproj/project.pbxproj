@@ -25,6 +25,7 @@
 		BA8666332093C85A00CFA679 /* InspirationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8666322093C85A00CFA679 /* InspirationController.swift */; };
 		BA866635209513A900CFA679 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA866634209513A900CFA679 /* ProfileController.swift */; };
 		BA86663720954B9600CFA679 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA86663620954B9600CFA679 /* Post.swift */; };
+		BA8666392096597100CFA679 /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8666382096597100CFA679 /* PostCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		BA8666322093C85A00CFA679 /* InspirationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspirationController.swift; sourceTree = "<group>"; };
 		BA866634209513A900CFA679 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		BA86663620954B9600CFA679 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		BA8666382096597100CFA679 /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		D090327A6381FBBB839F4AD9 /* Pods-Food Sir.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Food Sir.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Food Sir/Pods-Food Sir.debug.xcconfig"; sourceTree = "<group>"; };
 		D5B4F7FFABA251D77909EAAF /* Pods_Food_Sir.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Food_Sir.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -143,6 +145,7 @@
 			children = (
 				BA8665B020863E5000CFA679 /* OnboardingCell.swift */,
 				BA86662C208F916B00CFA679 /* LoginCell.swift */,
+				BA8666382096597100CFA679 /* PostCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 				BA86663720954B9600CFA679 /* Post.swift in Sources */,
 				BA8665A520863D6300CFA679 /* OnboardingScreenController.swift in Sources */,
 				BA8666312093C76900CFA679 /* CustomTabBarController.swift in Sources */,
+				BA8666392096597100CFA679 /* PostCell.swift in Sources */,
 				BA8666332093C85A00CFA679 /* InspirationController.swift in Sources */,
 				BA8665B120863E5000CFA679 /* OnboardingCell.swift in Sources */,
 				BA86658F2086349E00CFA679 /* AppDelegate.swift in Sources */,
