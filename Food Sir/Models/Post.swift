@@ -16,5 +16,5 @@ class Post {
     var profileImageName: String?
     var numberOfLikes: Int?
     var numberOfComments: Int?
-    var numberOfShares: Int?
+    var numberOfItems: Int?
 }

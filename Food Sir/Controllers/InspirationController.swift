@@ -8,56 +8,65 @@
 
 import UIKit
 
+protocol InspirationControllerDelegte: class {
+    
+}
 
-class InspirationController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class InspirationController: UICollectionViewController, UICollectionViewDelegateFlowLayout, InspirationControllerDelegte {
     
     let postCellId = "postCellId"
     var posts = [Post]()
     
-    let backgroundView: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(named: "gradientBackground")
+    let backgroundView: UIView = {
+        let iv = UIView()
+        iv.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         return iv
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.hidesBarsOnSwipe = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let postSalmon = Post()
         postSalmon.profileName = "Arvids Gargurnis"
-        postSalmon.userLocation = "Pymouth, UK"
+        postSalmon.userLocation = "Plymouth, UK"
         postSalmon.postDescriptionText = "Eating some fresh salmon that got caught only a few hours ago. #Scotland "
         postSalmon.profileImageName = "profilePic"
         postSalmon.postImageName = "salmon"
-        postSalmon.numberOfLikes = 732
-        postSalmon.numberOfComments = 212
-        postSalmon.numberOfShares = 76
+        postSalmon.numberOfLikes = 11
+        postSalmon.numberOfComments = 7
+        postSalmon.numberOfItems = 8
         
         let postBurger = Post()
         postBurger.profileName = "Arvids Gargurnis"
-        postBurger.userLocation = "Pymouth, UK"
+        postBurger.userLocation = "Plymouth, UK"
         postBurger.postDescriptionText = "Just made these lovely burgers. #Homemade #Delicious "
         postBurger.profileImageName = "profilePic"
         postBurger.postImageName = "burgers"
-        postBurger.numberOfLikes = 468
-        postBurger.numberOfComments = 112
-        postBurger.numberOfShares = 23
+        postBurger.numberOfLikes = 18
+        postBurger.numberOfComments = 2
+        postBurger.numberOfItems = 5
         
         let postCurry = Post()
         postCurry.profileName = "Arvids Gargurnis"
-        postCurry.userLocation = "Pymouth, UK"
+        postCurry.userLocation = "Plymouth, UK"
         postCurry.postDescriptionText = "The curry from hell, so spicy that it will blow off your socks! #TurnUpTheHeat "
         postCurry.profileImageName = "profilePic"
         postCurry.postImageName = "curry"
-        postCurry.numberOfLikes = 973
-        postCurry.numberOfComments = 420
-        postCurry.numberOfShares = 99
+        postCurry.numberOfLikes = 3
+        postCurry.numberOfComments = 1
+        postCurry.numberOfItems = 11
         
         posts.append(postSalmon)
         posts.append(postBurger)
         posts.append(postCurry)
         
-        //navigationController?.isNavigationBarHidden = true
+        collectionView?.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0)
         collectionView?.backgroundView = backgroundView
         collectionView?.alwaysBounceVertical = true
         collectionView?.register(PostCell.self, forCellWithReuseIdentifier: postCellId)
@@ -78,15 +87,6 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-//        if let postDescriptionText = posts[indexPath.item].postDescriptionText {
-//
-//            //let knownHeight: CGFloat = 8+....
-//            let rect = NSString(string: postDescriptionText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14)], context: nil)
-//
-//            return CGSize(width: view.frame.width, height: rect.height + 100)
-//        }
-        
         return CGSize(width: view.frame.width, height: 400)
     }
     

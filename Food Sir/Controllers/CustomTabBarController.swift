@@ -10,10 +10,16 @@ import UIKit
 
 class CustomTabBarController: UITabBarController {
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.hidesBarsOnSwipe = true 
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Welcome Arvids"
+        navigationItem.title = "Get Inspired"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
         UITabBar.appearance().tintColor = .appOrange
         
@@ -35,9 +41,10 @@ class CustomTabBarController: UITabBarController {
         profileNavigationController.title = "Profile"
         profileNavigationController.tabBarItem.image = UIImage(named: "profileIcon")
         
-        viewControllers = [inspirationNavigationController, shareNavigationController, recommendationNavigationController, profileNavigationController]
+        viewControllers = [shareNavigationController, inspirationNavigationController, recommendationNavigationController, profileNavigationController]
         
         tabBar.isTranslucent = false
+        self.selectedIndex = 1
         
         let topBorder = CALayer()
         topBorder.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 0.5)
