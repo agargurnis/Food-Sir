@@ -16,11 +16,12 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
     
     var cellId = "cellId"
     var imageCellId = "imageCellId"
-    var commentCellId = "commentCellId"
+    var commentViewCellId = "commentViewCellId"
     var groceryCellId = "groceryCellId"
+    var user: User?
     
-    var commentCell: CommentCell = {
-        let cell = CommentCell()
+    var commentViewCell: CommentViewCell = {
+        let cell = CommentViewCell()
         return cell
     }()
     
@@ -43,6 +44,10 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
                     let attributedText = NSMutableAttributedString(string: name, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 12)])
                     attributedText.append(NSAttributedString(string: "\n\(userLocation)", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10), NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 155, green: 161, blue: 171)]))
                     self.imageCell.profileNameLabel.attributedText = attributedText
+                }
+                
+                if let postId = self.post?.postId {
+                    self.commentViewCell.postId = postId
                 }
                 
                 if let descriptionText = self.post?.postDescriptionText {
@@ -100,7 +105,7 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
         
         addSubview(postCollectionView)
         
-        postCollectionView.register(CommentCell.self, forCellWithReuseIdentifier: commentCellId)
+        postCollectionView.register(CommentViewCell.self, forCellWithReuseIdentifier: commentViewCellId)
         postCollectionView.register(ImageCell.self, forCellWithReuseIdentifier: imageCellId)
         postCollectionView.register(GroceryCell.self, forCellWithReuseIdentifier: groceryCellId)
         
@@ -122,9 +127,9 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
-            commentCell = collectionView.dequeueReusableCell(withReuseIdentifier: commentCellId, for: indexPath) as! CommentCell
+            commentViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: commentViewCellId, for: indexPath) as! CommentViewCell
             //commentCell.delegate = inspirationController
-            return commentCell
+            return commentViewCell
         } else if indexPath.item == 1 {
             imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: imageCellId, for: indexPath) as! ImageCell
             imageCell.delegate = self

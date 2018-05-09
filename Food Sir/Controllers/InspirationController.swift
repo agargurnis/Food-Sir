@@ -33,6 +33,7 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
         super.viewDidLoad()
         
         let postSalmon = Post()
+        postSalmon.postId = "1a"
         postSalmon.profileName = "Arvids Gargurnis"
         postSalmon.userLocation = "Plymouth, UK"
         postSalmon.postDescriptionText = "Eating some fresh salmon that got caught only a few hours ago. #Scotland "
@@ -43,6 +44,7 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
         postSalmon.numberOfItems = 8
         
         let postBurger = Post()
+        postBurger.postId = "2b"
         postBurger.profileName = "Arvids Gargurnis"
         postBurger.userLocation = "Plymouth, UK"
         postBurger.postDescriptionText = "Just made these lovely burgers. #Homemade #Delicious "
@@ -53,6 +55,7 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
         postBurger.numberOfItems = 5
         
         let postCurry = Post()
+        postCurry.postId = "3c"
         postCurry.profileName = "Arvids Gargurnis"
         postCurry.userLocation = "Plymouth, UK"
         postCurry.postDescriptionText = "The curry from hell, so spicy that it will blow off your socks! #TurnUpTheHeat "
@@ -66,6 +69,7 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
         posts.append(postBurger)
         posts.append(postCurry)
         
+        collectionView?.keyboardDismissMode = .onDrag
         collectionView?.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0)
         collectionView?.backgroundView = backgroundView
         collectionView?.alwaysBounceVertical = true

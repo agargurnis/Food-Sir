@@ -24,12 +24,12 @@ class CustomTabBarController: UITabBarController {
         UITabBar.appearance().tintColor = .appOrange
         
         let inspirationController = InspirationController(collectionViewLayout: UICollectionViewFlowLayout())
-        let inspirationNavigationController = UINavigationController(rootViewController:inspirationController)
+        let inspirationNavigationController = UINavigationController(rootViewController: inspirationController)
         inspirationNavigationController.title = "Inspire"
         inspirationNavigationController.tabBarItem.image = UIImage(named: "inspireIcon")
         
-        
-        let shareNavigationController = UINavigationController(rootViewController: UIViewController())
+        let sharePostController = SharePostController(collectionViewLayout: UICollectionViewFlowLayout())
+        let shareNavigationController = UINavigationController(rootViewController: sharePostController)
         shareNavigationController.title = "Share"
         shareNavigationController.tabBarItem.image = UIImage(named: "shareIcon")
         
