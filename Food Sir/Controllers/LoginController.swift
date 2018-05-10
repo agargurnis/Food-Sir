@@ -256,6 +256,7 @@ class LoginController: UIViewController, UICollectionViewDataSource, UICollectio
             let user = User()
             user.name = values["name"] as? String
             user.email = values["email"] as? String
+            user.location = values["location"] as? String
             user.profileImageUrl = values ["profileImageUrl"] as? String
             self.dismiss(animated: true, completion: nil)
         })

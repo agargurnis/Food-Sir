@@ -10,8 +10,6 @@ import UIKit
 
 class GroceryCell: UICollectionViewCell {
     
-    weak var delegate: InspirationControllerDelegte?
-    
     let bubbleView: UIView = {
         let view = UIView()
         view.backgroundColor = .white

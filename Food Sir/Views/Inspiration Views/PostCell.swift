@@ -40,7 +40,7 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
     var post: Post? {
         didSet {
             DispatchQueue.main.async {
-                if let name = self.post?.profileName, let userLocation = self.post?.userLocation {
+                if let name = self.post?.userName, let userLocation = self.post?.userLocation {
                     let attributedText = NSMutableAttributedString(string: name, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 12)])
                     attributedText.append(NSAttributedString(string: "\n\(userLocation)", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10), NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 155, green: 161, blue: 171)]))
                     self.imageCell.profileNameLabel.attributedText = attributedText
@@ -53,19 +53,19 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
                 if let descriptionText = self.post?.postDescriptionText {
                     self.imageCell.descriptionTextView.text = descriptionText
                 }
-                if let profileImageName = self.post?.profileImageName {
-                    self.imageCell.profileImageView.image = UIImage(named: profileImageName)
+                if let userProfileImageUrl = self.post?.userProfileImageUrl {
+                    self.imageCell.profileImageView.loadImageUsingCacheWithUrlString(urlString: userProfileImageUrl)
                 }
-                if let postImageName = self.post?.postImageName {
-                    self.imageCell.postImageView.image = UIImage(named: postImageName)
+                if let postImageUrl = self.post?.postImageUrl {
+                    self.imageCell.postImageView.loadImageUsingCacheWithUrlString(urlString: postImageUrl)
                 }
-                if let numberOfLikes = self.post?.numberOfLikes {
-                    self.imageCell.likeButtonLabel.text = String(numberOfLikes)
+                if let numberOfLikes = self.post?.timestamp {
+                    self.imageCell.likeButtonLabel.text = "1"
                 }
-                if let numberOfComments = self.post?.numberOfComments {
-                    self.imageCell.commentButtonLabel.text = String(numberOfComments)
+                if let numberOfComments = self.post?.timestamp {
+                    self.imageCell.commentButtonLabel.text = "2"
                 }
-                if let numberOfItems = self.post?.numberOfItems {
+                if let numberOfItems = self.post?.ingredientList?.count {
                     self.imageCell.groceryButtonLabel.text = String(numberOfItems)
                 }
             }
@@ -128,7 +128,6 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
             commentViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: commentViewCellId, for: indexPath) as! CommentViewCell
-            //commentCell.delegate = inspirationController
             return commentViewCell
         } else if indexPath.item == 1 {
             imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: imageCellId, for: indexPath) as! ImageCell
@@ -136,22 +135,34 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
             return imageCell
         } else {
             groceryCell = collectionView.dequeueReusableCell(withReuseIdentifier: groceryCellId, for: indexPath) as! GroceryCell
-            //groceryCell.delegate = inspirationController
             return groceryCell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        //        if let postDescriptionText = posts[indexPath.item].postDescriptionText {
-        //
-        //            //let knownHeight: CGFloat = 8+....
-        //            let rect = NSString(string: postDescriptionText).boundingRect(with: CGSize(width: view.frame.width, height: 1000), options: NSStringDrawingOptions.usesFontLeading.union(NSStringDrawingOptions.usesLineFragmentOrigin), attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14)], context: nil)
-        //
-        //            return CGSize(width: view.frame.width, height: rect.height + 100)
-        //        }
-        
         return CGSize(width: self.frame.width, height: self.frame.height)
     }
     
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+////        if let postDescriptionText = imageCell.descriptionTextView.text {
+////
+////            let height = estimateFrameForText(text: postDescriptionText).height
+////            imageCell.descriptionTextHeight?.constant = CGFloat(height) - 20
+////            print(imageCell.descriptionTextHeight?.constant)
+////
+////            DispatchQueue.main.async {
+////                self.postCollectionView.layoutIfNeeded()
+////            }
+////        }
+////
+//        return CGSize(width: self.frame.width, height: self.frame.height)
+//    }
+//
+//    func estimateFrameForText(text: String) -> CGRect {
+//        let size = CGSize(width: frame.width - 95, height: 1000)
+//        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+//        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)], context: nil)
+//    }
 }

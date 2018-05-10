@@ -10,13 +10,11 @@ import UIKit
 
 class Post {
     var postId: String?
-    var profileName: String?
+    var userName: String?
     var userLocation: String?
+    var userProfileImageUrl: String?
     var postDescriptionText: String?
-    var postImageName: String?
-    var profileImageName: String?
-    var numberOfLikes: Int?
-    var numberOfComments: Int?
-    var numberOfItems: Int?
+    var timestamp: Double?
+    var postImageUrl: String?
     var ingredientList: [String]?
 }

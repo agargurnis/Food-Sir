@@ -12,6 +12,8 @@ class ImageCell: UICollectionViewCell {
     
     weak var delegate: PostCellDelegte?
     
+    var descriptionTextHeight: NSLayoutConstraint?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -48,6 +50,7 @@ class ImageCell: UICollectionViewCell {
         let textView = UITextView()
         textView.text = "Eating some fresh salmon that got caught only a few hours ago. #Scotland "
         textView.font = UIFont.systemFont(ofSize: 13)
+        textView.sizeToFit()
         textView.isScrollEnabled = false
         return textView
     }()
@@ -162,14 +165,16 @@ class ImageCell: UICollectionViewCell {
         addSubview(imageShadowView)
         imageShadowView.addSubview(postImageView)
         
+        // round corners on input textfields
         
-        _ = postBackgroundView.anchor(safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: nil, right: safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 400)
         
-        _ = descriptionTextView.anchor(postBackgroundView.topAnchor, left: postBackgroundView.leftAnchor, bottom: nil, right: postBackgroundView.rightAnchor, topConstant: 5, leftConstant: 10, bottomConstant: 5, rightConstant: 10, widthConstant: 0, heightConstant: 50)
+        _ = postBackgroundView.anchor(safeAreaLayoutGuide.topAnchor, left: safeAreaLayoutGuide.leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        _ = imageShadowView.anchor(descriptionTextView.topAnchor, left: postBackgroundView.leftAnchor, bottom: nil, right: postBackgroundView.rightAnchor, topConstant: 55, leftConstant: 15, bottomConstant: 0, rightConstant: 15, widthConstant: 0, heightConstant: 280)
+        _ = descriptionTextView.anchor(postBackgroundView.topAnchor, left: postBackgroundView.leftAnchor, bottom: nil, right: postBackgroundView.rightAnchor, topConstant: 5, leftConstant: 10, bottomConstant: 5, rightConstant: 10, widthConstant: 0, heightConstant: 0)
         
-        _ = postImageView.anchor(descriptionTextView.topAnchor, left: postBackgroundView.leftAnchor, bottom: nil, right: postBackgroundView.rightAnchor, topConstant: 55, leftConstant: 15, bottomConstant: 0, rightConstant: 15, widthConstant: 0, heightConstant: 280)
+        _ = imageShadowView.anchor(descriptionTextView.bottomAnchor, left: postBackgroundView.leftAnchor, bottom: nil, right: postBackgroundView.rightAnchor, topConstant: 5, leftConstant: 15, bottomConstant: 0, rightConstant: 15, widthConstant: 0, heightConstant: 280)
+        
+        _ = postImageView.anchor(descriptionTextView.bottomAnchor, left: postBackgroundView.leftAnchor, bottom: nil, right: postBackgroundView.rightAnchor, topConstant: 5, leftConstant: 15, bottomConstant: 0, rightConstant: 15, widthConstant: 0, heightConstant: 280)
         
         _ = profileContainer.anchor(postImageView.bottomAnchor, left: buttonContainer.rightAnchor, bottom: nil, right: postBackgroundView.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 15, widthConstant: 0, heightConstant: 60)
         
@@ -179,7 +184,7 @@ class ImageCell: UICollectionViewCell {
         
         _ = profileNameLabel.anchor(profileContainer.topAnchor, left: profileContainer.leftAnchor, bottom: profileContainer.bottomAnchor, right: profileImageView.leftAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 5, widthConstant: 0, heightConstant: 0)
         
-        _ = buttonContainer.anchor(postImageView.bottomAnchor, left: postBackgroundView.leftAnchor, bottom: nil, right: nil, topConstant: 0, leftConstant: 15, bottomConstant: 0, rightConstant: 0, widthConstant: 120, heightConstant: 60)
+        _ = buttonContainer.anchor(postImageView.bottomAnchor, left: postBackgroundView.leftAnchor, bottom: nil, right: nil, topConstant: 3, leftConstant: 15, bottomConstant: 0, rightConstant: 0, widthConstant: 120, heightConstant: 60)
         
         _ = likeButtonLabel.anchor(likeButton.centerYAnchor, left: likeButton.centerXAnchor, bottom: nil, right: nil, topConstant: -26, leftConstant: -3, bottomConstant: 0, rightConstant: 0, widthConstant: 32, heightConstant: 0)
         
@@ -193,6 +198,5 @@ class ImageCell: UICollectionViewCell {
         
         _ = groceryButton.anchor(buttonContainer.topAnchor, left: commentButton.rightAnchor, bottom: buttonContainer.bottomAnchor, right: nil, topConstant: 16, leftConstant: 12, bottomConstant: 14, rightConstant: 0, widthConstant: 25, heightConstant: 0)
     }
-    
     
 }

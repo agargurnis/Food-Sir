@@ -7,12 +7,9 @@
 //
 
 import UIKit
+import Firebase
 
-protocol InspirationControllerDelegte: class {
-    
-}
-
-class InspirationController: UICollectionViewController, UICollectionViewDelegateFlowLayout, InspirationControllerDelegte {
+class InspirationController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     let postCellId = "postCellId"
     var posts = [Post]()
@@ -29,45 +26,33 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
         navigationController?.hidesBarsOnSwipe = true
     }
     
+    func loadPosts() {
+        let ref = Database.database().reference().child("posts")
+        ref.observe(.childAdded, with: { (snapshot) in
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let post = Post()
+                post.postId = snapshot.key
+                post.ingredientList = dictionary["ingredientList"] as? [String]
+                post.postDescriptionText = dictionary["postDescriptionText"] as? String
+                post.userName = dictionary["userName"] as? String
+                post.userLocation = dictionary["userLocation"] as? String
+                post.userProfileImageUrl = dictionary["userProfileImageUrl"] as? String
+                post.timestamp = dictionary["timestamp"] as? Double
+                post.postImageUrl = dictionary["postImageUrl"] as? String
+                
+                self.posts.append(post)
+                
+                DispatchQueue.main.async {
+                    self.collectionView?.reloadData()
+                }
+            }
+            
+        }, withCancel: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let postSalmon = Post()
-        postSalmon.postId = "1a"
-        postSalmon.profileName = "Arvids Gargurnis"
-        postSalmon.userLocation = "Plymouth, UK"
-        postSalmon.postDescriptionText = "Eating some fresh salmon that got caught only a few hours ago. #Scotland "
-        postSalmon.profileImageName = "profilePic"
-        postSalmon.postImageName = "salmon"
-        postSalmon.numberOfLikes = 11
-        postSalmon.numberOfComments = 7
-        postSalmon.numberOfItems = 8
-        
-        let postBurger = Post()
-        postBurger.postId = "2b"
-        postBurger.profileName = "Arvids Gargurnis"
-        postBurger.userLocation = "Plymouth, UK"
-        postBurger.postDescriptionText = "Just made these lovely burgers. #Homemade #Delicious "
-        postBurger.profileImageName = "profilePic"
-        postBurger.postImageName = "burgers"
-        postBurger.numberOfLikes = 18
-        postBurger.numberOfComments = 2
-        postBurger.numberOfItems = 5
-        
-        let postCurry = Post()
-        postCurry.postId = "3c"
-        postCurry.profileName = "Arvids Gargurnis"
-        postCurry.userLocation = "Plymouth, UK"
-        postCurry.postDescriptionText = "The curry from hell, so spicy that it will blow off your socks! #TurnUpTheHeat "
-        postCurry.profileImageName = "profilePic"
-        postCurry.postImageName = "curry"
-        postCurry.numberOfLikes = 3
-        postCurry.numberOfComments = 1
-        postCurry.numberOfItems = 11
-        
-        posts.append(postSalmon)
-        posts.append(postBurger)
-        posts.append(postCurry)
+        loadPosts()
         
         collectionView?.keyboardDismissMode = .onDrag
         collectionView?.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0)
@@ -91,34 +76,21 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 400)
+        var height: CGFloat = 80
+        
+        if let text = posts[indexPath.item].postDescriptionText {
+            height = estimateFrameForText(text: text).height - 30
+        }
+        
+        return CGSize(width: view.frame.width, height: 400 + height)
+        //return CGSize(width: view.frame.width, height: 400)
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    func estimateFrameForText(text: String) -> CGRect {
+        let size = CGSize(width: view.frame.width - 20, height: 400)
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)], context: nil)
+    }
     
     
     

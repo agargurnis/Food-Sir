@@ -12,6 +12,7 @@ class User: NSObject {
     var id: String?
     var name: String?
     var email: String?
+    var location: String?
     var profileImageUrl: String?
 }
 
