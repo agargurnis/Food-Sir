@@ -114,7 +114,8 @@ class SharePostController: UICollectionViewController, UICollectionViewDelegateF
     @objc func saveShareInStorage() {
         let userId = Auth.auth().currentUser!.uid
         let timestamp: Double = Double(NSDate().timeIntervalSince1970)
-        let ingredientArray = ingredientTexView.text.components(separatedBy: ",")
+        let rawString = ingredientTexView.text.trimmingCharacters(in: .whitespaces)
+        let ingredientArray = rawString.components(separatedBy: ",")
         let imageName = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child("post_images").child("\(imageName).jpg")
         var userName: String?

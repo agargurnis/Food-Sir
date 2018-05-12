@@ -41,12 +41,11 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
                 post.postImageUrl = dictionary["postImageUrl"] as? String
                 
                 self.posts.append(post)
-                
-                DispatchQueue.main.async {
-                    self.collectionView?.reloadData()
-                }
             }
             
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()
+            }
         }, withCancel: nil)
     }
     
@@ -77,13 +76,14 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height: CGFloat = 80
+        var postHeight: CGFloat = 400
         
         if let text = posts[indexPath.item].postDescriptionText {
-            height = estimateFrameForText(text: text).height - 30
+            height = estimateFrameForText(text: text).height
+            postHeight = height + 370
         }
         
-        return CGSize(width: view.frame.width, height: 400 + height)
-        //return CGSize(width: view.frame.width, height: 400)
+        return CGSize(width: view.frame.width, height: floor(postHeight))
     }
     
     func estimateFrameForText(text: String) -> CGRect {

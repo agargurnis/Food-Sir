@@ -10,6 +10,7 @@ import UIKit
 
 protocol PostCellDelegte: class {
     func scrollToCell(cellIndex: Int)
+    func reloadData()
 }
 
 class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, PostCellDelegte {
@@ -45,11 +46,11 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
                     attributedText.append(NSAttributedString(string: "\n\(userLocation)", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10), NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 155, green: 161, blue: 171)]))
                     self.imageCell.profileNameLabel.attributedText = attributedText
                 }
-                
                 if let postId = self.post?.postId {
                     self.commentViewCell.postId = postId
+                    self.groceryCell.postId = postId
+                    self.imageCell.postId = postId
                 }
-                
                 if let descriptionText = self.post?.postDescriptionText {
                     self.imageCell.descriptionTextView.text = descriptionText
                 }
@@ -59,16 +60,32 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
                 if let postImageUrl = self.post?.postImageUrl {
                     self.imageCell.postImageView.loadImageUsingCacheWithUrlString(urlString: postImageUrl)
                 }
-                if let numberOfLikes = self.post?.timestamp {
-                    self.imageCell.likeButtonLabel.text = "1"
+                if let likeCount = self.imageCell.likes?.count {
+                    self.imageCell.likeButtonLabel.text = String(likeCount)
+                } else {
+                    self.imageCell.likeButtonLabel.text = "0"
                 }
-                if let numberOfComments = self.post?.timestamp {
-                    self.imageCell.commentButtonLabel.text = "2"
+                if self.commentViewCell.comments.count > 0 {
+                    self.imageCell.commentButtonLabel.text = String(self.commentViewCell.comments.count)
+                } else {
+                    self.imageCell.commentButtonLabel.text = "0"
                 }
                 if let numberOfItems = self.post?.ingredientList?.count {
                     self.imageCell.groceryButtonLabel.text = String(numberOfItems)
                 }
+                if let itemList = self.post?.ingredientList {
+                    self.groceryCell.listLabel.attributedText = self.groceryCell.createBulletedList(fromStringArray: itemList, font: UIFont.systemFont(ofSize: 16))
+                    print(itemList)
+                }
+                
+               self.reloadData()
             }
+        }
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async {
+            self.postCollectionView.reloadData()
         }
     }
     
@@ -143,26 +160,4 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
         return CGSize(width: self.frame.width, height: self.frame.height)
     }
     
-    
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-////        if let postDescriptionText = imageCell.descriptionTextView.text {
-////
-////            let height = estimateFrameForText(text: postDescriptionText).height
-////            imageCell.descriptionTextHeight?.constant = CGFloat(height) - 20
-////            print(imageCell.descriptionTextHeight?.constant)
-////
-////            DispatchQueue.main.async {
-////                self.postCollectionView.layoutIfNeeded()
-////            }
-////        }
-////
-//        return CGSize(width: self.frame.width, height: self.frame.height)
-//    }
-//
-//    func estimateFrameForText(text: String) -> CGRect {
-//        let size = CGSize(width: frame.width - 95, height: 1000)
-//        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-//        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 13)], context: nil)
-//    }
 }

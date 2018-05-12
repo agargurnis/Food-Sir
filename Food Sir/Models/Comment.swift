@@ -12,4 +12,5 @@ class Comment: NSObject {
     var userId: String?
     var text: String?
     var timestamp: Double?
+    var userProfileImageUrl: String?
 }

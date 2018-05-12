@@ -17,4 +17,5 @@ class Post {
     var timestamp: Double?
     var postImageUrl: String?
     var ingredientList: [String]?
+    var likes: [String]?
 }

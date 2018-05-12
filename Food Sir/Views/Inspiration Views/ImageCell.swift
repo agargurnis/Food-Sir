@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import Firebase
 
 class ImageCell: UICollectionViewCell {
     
     weak var delegate: PostCellDelegte?
+    var postId: String?
+    var likes: [String]?
     
     var descriptionTextHeight: NSLayoutConstraint?
     
@@ -135,7 +138,40 @@ class ImageCell: UICollectionViewCell {
     }()
     
     @objc func handleLikeButton() {
+        likeButton.isUserInteractionEnabled = false
         likeButton.setImage(UIImage(named: "blankBulbOn"), for: .normal)
+
+        let ref = Database.database().reference().child("posts").child(postId!)
+        let userId = Auth.auth().currentUser!.uid
+
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                self.likes = dictionary["likes"] as? [String]
+                if self.likes != nil {
+                    self.likes?.append(userId)
+                } else {
+                    self.likes = [String]()
+                    self.likes?.append(userId)
+                }
+
+                ref.updateChildValues(["likes": self.likes!])
+            }
+        }, withCancel: nil)
+
+        delegate?.reloadData()
+    }
+
+    func observeLikes(forPost: String) {
+        let ref = Database.database().reference().child("posts").child(forPost)
+        ref.observe(.childAdded, with: { (snapshot) in
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                self.likes = dictionary["likes"] as? [String]
+                DispatchQueue.main.async {
+                    self.delegate?.reloadData()
+                }
+            }
+
+        }, withCancel: nil)
     }
     
     @objc func handleCommentButton() {

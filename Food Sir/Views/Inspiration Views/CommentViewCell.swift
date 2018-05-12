@@ -77,12 +77,20 @@ class CommentViewCell: UICollectionViewCell, UITextFieldDelegate, UICollectionVi
         let childRef = ref.childByAutoId()
         let userId = Auth.auth().currentUser!.uid
         let timestamp: Double = Double(NSDate().timeIntervalSince1970)
-        let values: [String: Any] = ["text": inputTextField.text!, "userId": userId, "timestamp": timestamp]
-        childRef.updateChildValues(values)
-        
-        self.inputTextField.text = nil
+        var userProfileImageUrl: String?
+
+        let userRef = Database.database().reference().child("users").child(userId)
+        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                userProfileImageUrl = dictionary["profileImageUrl"] as? String
+                let values: [String: Any] = ["text": self.inputTextField.text!, "userId": userId, "timestamp": timestamp, "userProfileImageUrl": userProfileImageUrl!]
+                childRef.updateChildValues(values)
+                self.inputTextField.text = nil
+            }
+        }, withCancel: nil)
+
     }
-    
+
     func observeComments(forPost: String) {
         let ref = Database.database().reference().child("comments").child(forPost)
         ref.observe(.childAdded, with: { (snapshot) in
@@ -91,14 +99,15 @@ class CommentViewCell: UICollectionViewCell, UITextFieldDelegate, UICollectionVi
                 comment.userId = dictionary["userId"] as? String
                 comment.text = dictionary["text"] as? String
                 comment.timestamp = dictionary["timestamp"] as? Double
-                
+                comment.userProfileImageUrl = dictionary["userProfileImageUrl"] as? String
+
                 self.comments.append(comment)
-                
+
                 DispatchQueue.main.async {
                     self.commentCollectionView.reloadData()
                 }
             }
-            
+
         }, withCancel: nil)
     }
     
