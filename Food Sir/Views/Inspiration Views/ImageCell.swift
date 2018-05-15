@@ -21,6 +21,10 @@ class ImageCell: UICollectionViewCell {
         super.init(frame: frame)
         
         setupViews()
+        
+        DispatchQueue.main.async {
+            self.checkIfLiked()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -137,41 +141,45 @@ class ImageCell: UICollectionViewCell {
         return button
     }()
     
+    func checkIfLiked() {
+        let userId = Auth.auth().currentUser!.uid
+        
+        if let likesArray = likes {
+            for likeId in likesArray {
+                if likeId == userId {
+                    self.likeButton.isUserInteractionEnabled = false
+                    self.likeButton.setImage(UIImage(named: "blankBulbOn"), for: .normal)
+                }
+            }
+        }
+    }
+    
     @objc func handleLikeButton() {
         likeButton.isUserInteractionEnabled = false
         likeButton.setImage(UIImage(named: "blankBulbOn"), for: .normal)
 
-        let ref = Database.database().reference().child("posts").child(postId!)
-        let userId = Auth.auth().currentUser!.uid
-
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                self.likes = dictionary["likes"] as? [String]
-                if self.likes != nil {
-                    self.likes?.append(userId)
-                } else {
-                    self.likes = [String]()
-                    self.likes?.append(userId)
+        if let postID = postId {
+            let ref = Database.database().reference().child("posts").child(postID)
+            let userId = Auth.auth().currentUser!.uid
+            
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    self.likes = dictionary["likes"] as? [String]
+                    if self.likes != nil {
+                        self.likes?.append(userId)
+                    } else {
+                        self.likes = [String]()
+                        self.likes?.append(userId)
+                    }
+                    
+                    ref.updateChildValues(["likes": self.likes!])
                 }
-
-                ref.updateChildValues(["likes": self.likes!])
+            }, withCancel: nil)
+            
+            DispatchQueue.main.async {
+                self.delegate?.updateLabels(forPost: postID)
             }
-        }, withCancel: nil)
-
-        delegate?.reloadData()
-    }
-
-    func observeLikes(forPost: String) {
-        let ref = Database.database().reference().child("posts").child(forPost)
-        ref.observe(.childAdded, with: { (snapshot) in
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                self.likes = dictionary["likes"] as? [String]
-                DispatchQueue.main.async {
-                    self.delegate?.reloadData()
-                }
-            }
-
-        }, withCancel: nil)
+        }
     }
     
     @objc func handleCommentButton() {
@@ -233,6 +241,7 @@ class ImageCell: UICollectionViewCell {
         _ = groceryButtonLabel.anchor(groceryButton.centerYAnchor, left: groceryButton.centerXAnchor, bottom: nil, right: nil, topConstant: -26, leftConstant: -1, bottomConstant: 0, rightConstant: 0, widthConstant: 32, heightConstant: 0)
         
         _ = groceryButton.anchor(buttonContainer.topAnchor, left: commentButton.rightAnchor, bottom: buttonContainer.bottomAnchor, right: nil, topConstant: 16, leftConstant: 12, bottomConstant: 14, rightConstant: 0, widthConstant: 25, heightConstant: 0)
+        
     }
     
 }

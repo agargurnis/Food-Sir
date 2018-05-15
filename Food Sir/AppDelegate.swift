@@ -25,10 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         UINavigationBar.appearance().barTintColor = UIColor.rgb(red: 240, green: 240, blue: 240)
         
-        let statusBarBackgroundView = UIView()
-        statusBarBackgroundView.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
-        window?.addSubview(statusBarBackgroundView)
-        _ = statusBarBackgroundView.anchor(window?.topAnchor, left: window?.leftAnchor, bottom: nil, right: window?.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 30)
+//        let statusBarBackgroundView = UIView()
+//        statusBarBackgroundView.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+//        window?.addSubview(statusBarBackgroundView)
+//        _ = statusBarBackgroundView.anchor(window?.topAnchor, left: window?.leftAnchor, bottom: nil, right: window?.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 30)
         
         FirebaseApp.configure()
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID

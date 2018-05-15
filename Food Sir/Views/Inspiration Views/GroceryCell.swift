@@ -75,7 +75,6 @@ class GroceryCell: UICollectionViewCell {
         
         for index in 0..<strings.count {
             let bulletPoint: String = "\u{2022}"
-            print(strings.count)
             var formattedString: String = "\(bulletPoint) \(strings[index])"
             
             if index < strings.count - 1 {
@@ -89,15 +88,6 @@ class GroceryCell: UICollectionViewCell {
         
         return fullAttributedString
     }
-//    private static func createParagraphAttribute() -> NSParagraphStyle {
-//        let paragraphStyle: NSMutableParagraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-//        paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 15, options: NSDictionary() as! [NSTextTab.OptionKey : Any])]
-//        paragraphStyle.defaultTabInterval = 15
-//        paragraphStyle.firstLineHeadIndent = 0
-//        paragraphStyle.headIndent = 11
-//        return paragraphStyle
-//    }
-    
 
     override init(frame: CGRect) {
         super.init(frame: frame)

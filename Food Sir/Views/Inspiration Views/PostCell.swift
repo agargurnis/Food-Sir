@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import Firebase
 
 protocol PostCellDelegte: class {
     func scrollToCell(cellIndex: Int)
-    func reloadData()
+    func updateLabels(forPost: String)
 }
 
 class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, PostCellDelegte {
@@ -40,51 +41,6 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
     
     var post: Post? {
         didSet {
-            DispatchQueue.main.async {
-                if let name = self.post?.userName, let userLocation = self.post?.userLocation {
-                    let attributedText = NSMutableAttributedString(string: name, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 12)])
-                    attributedText.append(NSAttributedString(string: "\n\(userLocation)", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10), NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 155, green: 161, blue: 171)]))
-                    self.imageCell.profileNameLabel.attributedText = attributedText
-                }
-                if let postId = self.post?.postId {
-                    self.commentViewCell.postId = postId
-                    self.groceryCell.postId = postId
-                    self.imageCell.postId = postId
-                }
-                if let descriptionText = self.post?.postDescriptionText {
-                    self.imageCell.descriptionTextView.text = descriptionText
-                }
-                if let userProfileImageUrl = self.post?.userProfileImageUrl {
-                    self.imageCell.profileImageView.loadImageUsingCacheWithUrlString(urlString: userProfileImageUrl)
-                }
-                if let postImageUrl = self.post?.postImageUrl {
-                    self.imageCell.postImageView.loadImageUsingCacheWithUrlString(urlString: postImageUrl)
-                }
-                if let likeCount = self.imageCell.likes?.count {
-                    self.imageCell.likeButtonLabel.text = String(likeCount)
-                } else {
-                    self.imageCell.likeButtonLabel.text = "0"
-                }
-                if self.commentViewCell.comments.count > 0 {
-                    self.imageCell.commentButtonLabel.text = String(self.commentViewCell.comments.count)
-                } else {
-                    self.imageCell.commentButtonLabel.text = "0"
-                }
-                if let numberOfItems = self.post?.ingredientList?.count {
-                    self.imageCell.groceryButtonLabel.text = String(numberOfItems)
-                }
-                if let itemList = self.post?.ingredientList {
-                    self.groceryCell.listLabel.attributedText = self.groceryCell.createBulletedList(fromStringArray: itemList, font: UIFont.systemFont(ofSize: 16))
-                    print(itemList)
-                }
-                
-               self.reloadData()
-            }
-        }
-    }
-    
-    func reloadData() {
-        DispatchQueue.main.async {
             self.postCollectionView.reloadData()
         }
     }
@@ -118,6 +74,27 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
         }
     }
     
+    func updateLabels(forPost: String) {
+        let ref = Database.database().reference().child("posts").child(forPost)
+        ref.observe(.value, with: { (snapshot) in
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                
+                if let likeCount = dictionary["likes"] as? [String] {
+                    self.imageCell.likeButtonLabel.text = String(likeCount.count)
+                    //print(likeCount.count)
+                } else {
+                    self.imageCell.likeButtonLabel.text = "0"
+                }
+                if let commentCount = dictionary["comments"] as? [String: AnyObject] {
+                    self.imageCell.commentButtonLabel.text = String(commentCount.count)
+                    //print(commentCount.count)
+                } else {
+                    self.imageCell.commentButtonLabel.text = "0"
+                }
+            }
+        }, withCancel: nil)
+    }
+    
     func setupViews() {
         
         addSubview(postCollectionView)
@@ -138,6 +115,57 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
         }
     }
     
+    func setupImageCell() {
+        if let name = self.post?.userName, let userLocation = self.post?.userLocation {
+            let attributedText = NSMutableAttributedString(string: name, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 12)])
+            attributedText.append(NSAttributedString(string: "\n\(userLocation)", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 10), NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 155, green: 161, blue: 171)]))
+            self.imageCell.profileNameLabel.attributedText = attributedText
+        }
+        if let postId = self.post?.postId {
+            self.imageCell.postId = postId
+        }
+        if let descriptionText = self.post?.postDescriptionText {
+            self.imageCell.descriptionTextView.text = descriptionText
+        }
+        if let userProfileImageUrl = self.post?.userProfileImageUrl {
+            self.imageCell.profileImageView.loadImageUsingCacheWithUrlString(urlString: userProfileImageUrl)
+        }
+        if let postImageUrl = self.post?.postImageUrl {
+            self.imageCell.postImageView.loadImageUsingCacheWithUrlString(urlString: postImageUrl)
+        }
+        if let likeCount = self.post?.likes?.count {
+            self.imageCell.likeButtonLabel.text = String(likeCount)
+        } else {
+            self.imageCell.likeButtonLabel.text = "0"
+        }
+        if let commentCount = self.post?.comments?.count {
+            self.imageCell.commentButtonLabel.text = String(commentCount)
+        } else {
+            self.imageCell.commentButtonLabel.text = "0"
+        }
+        if let numberOfItems = self.post?.ingredientList?.count {
+            self.imageCell.groceryButtonLabel.text = String(numberOfItems)
+        }
+        if let likesArray = self.post?.likes {
+            self.imageCell.likes = likesArray
+        }
+    }
+    
+    func setupGroceryCell() {
+        if let postId = self.post?.postId {
+            self.groceryCell.postId = postId
+        }
+        if let itemList = self.post?.ingredientList {
+            self.groceryCell.listLabel.attributedText = self.groceryCell.createBulletedList(fromStringArray: itemList, font: UIFont.systemFont(ofSize: 16))
+        }
+    }
+    
+    func setupCommentViewCell() {
+        if let postId = self.post?.postId {
+            self.commentViewCell.postId = postId
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
     }
@@ -145,13 +173,17 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.item == 0 {
             commentViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: commentViewCellId, for: indexPath) as! CommentViewCell
+            setupCommentViewCell()
+            commentViewCell.delegate = self
             return commentViewCell
         } else if indexPath.item == 1 {
             imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: imageCellId, for: indexPath) as! ImageCell
+            setupImageCell()
             imageCell.delegate = self
             return imageCell
         } else {
             groceryCell = collectionView.dequeueReusableCell(withReuseIdentifier: groceryCellId, for: indexPath) as! GroceryCell
+            setupGroceryCell()
             return groceryCell
         }
     }

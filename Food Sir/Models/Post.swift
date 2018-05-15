@@ -18,4 +18,5 @@ class Post {
     var postImageUrl: String?
     var ingredientList: [String]?
     var likes: [String]?
+    var comments: [String: AnyObject]?
 }

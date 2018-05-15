@@ -11,9 +11,12 @@ import Firebase
 
 class CommentViewCell: UICollectionViewCell, UITextFieldDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    var postId = "0"
+    weak var delegate: PostCellDelegte?
+    
+    var postId: String?
     var comments = [Comment]()
     let commentCellId = "commentCellId"
+    var postComments: [String: AnyObject]?
     
     lazy var sendButton: UIButton = {
         let button = UIButton(type: .system)
@@ -46,6 +49,7 @@ class CommentViewCell: UICollectionViewCell, UITextFieldDelegate, UICollectionVi
     let titleView: UITextView = {
         let tv = UITextView()
         tv.text = "Comments"
+        tv.isUserInteractionEnabled = false
         tv.textAlignment = .center
         tv.font = UIFont.boldSystemFont(ofSize: 16)
         tv.backgroundColor = .clear
@@ -73,26 +77,32 @@ class CommentViewCell: UICollectionViewCell, UITextFieldDelegate, UICollectionVi
     }()
     
     @objc func handleSend() {
-        let ref = Database.database().reference().child("comments").child(postId)
-        let childRef = ref.childByAutoId()
-        let userId = Auth.auth().currentUser!.uid
-        let timestamp: Double = Double(NSDate().timeIntervalSince1970)
-        var userProfileImageUrl: String?
-
-        let userRef = Database.database().reference().child("users").child(userId)
-        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                userProfileImageUrl = dictionary["profileImageUrl"] as? String
-                let values: [String: Any] = ["text": self.inputTextField.text!, "userId": userId, "timestamp": timestamp, "userProfileImageUrl": userProfileImageUrl!]
-                childRef.updateChildValues(values)
-                self.inputTextField.text = nil
+        if let postID = postId {
+            let ref = Database.database().reference().child("posts").child(postID).child("comments")
+            let childRef = ref.childByAutoId()
+            let userId = Auth.auth().currentUser!.uid
+            let timestamp: Double = Double(NSDate().timeIntervalSince1970)
+            
+            let userRef = Database.database().reference().child("users").child(userId)
+            userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    if let userProfileImageUrl = dictionary["profileImageUrl"] as? String {
+                        let values: [String: Any] = ["text": self.inputTextField.text!, "userId": userId, "timestamp": timestamp, "userProfileImageUrl": userProfileImageUrl]
+                        
+                        childRef.updateChildValues(values)
+                        self.inputTextField.text = nil
+                    }
+                }
+            }, withCancel: nil)
+            
+            DispatchQueue.main.async {
+                self.delegate?.updateLabels(forPost: postID)
             }
-        }, withCancel: nil)
-
+        }
     }
-
+    
     func observeComments(forPost: String) {
-        let ref = Database.database().reference().child("comments").child(forPost)
+        let ref = Database.database().reference().child("posts").child(forPost).child("comments")
         ref.observe(.childAdded, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let comment = Comment()
@@ -139,7 +149,9 @@ class CommentViewCell: UICollectionViewCell, UITextFieldDelegate, UICollectionVi
         _ = commentCollectionView.anchor(topSeperatorLine.bottomAnchor, left: commentView.leftAnchor, bottom: bottomSeperatorLine.topAnchor, right: commentView.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
         DispatchQueue.main.async {
-            self.observeComments(forPost: self.postId)
+            if let postID = self.postId {
+                self.observeComments(forPost: postID)
+            }
         }
     }
     
@@ -150,8 +162,11 @@ class CommentViewCell: UICollectionViewCell, UITextFieldDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: commentCellId, for: indexPath) as! CommentCell
         let comment = comments[indexPath.item]
-        cell.textView.text = comment.text
-        cell.bubbleWidthAnchor?.constant = estimateFrameForText(text: comment.text!).width + 32
+        if let commentText = comment.text, let commentPictureUrl = comment.userProfileImageUrl {
+            cell.textView.text = commentText
+            cell.bubbleWidthAnchor?.constant = estimateFrameForText(text: commentText).width + 32
+            cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: commentPictureUrl)
+        }
         return cell
     }
     
@@ -162,7 +177,7 @@ class CommentViewCell: UICollectionViewCell, UITextFieldDelegate, UICollectionVi
             height = estimateFrameForText(text: text).height + 20
         }
         
-        return CGSize(width: frame.width - 10, height: height)
+        return CGSize(width: frame.width - 10, height: floor(height))
     }
     
     func estimateFrameForText(text: String) -> CGRect {

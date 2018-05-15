@@ -31,7 +31,9 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
         ref.observe(.childAdded, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let post = Post()
+
                 post.postId = snapshot.key
+                post.comments = dictionary["comments"] as? [String: AnyObject]
                 post.ingredientList = dictionary["ingredientList"] as? [String]
                 post.postDescriptionText = dictionary["postDescriptionText"] as? String
                 post.userName = dictionary["userName"] as? String
@@ -39,6 +41,7 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
                 post.userProfileImageUrl = dictionary["userProfileImageUrl"] as? String
                 post.timestamp = dictionary["timestamp"] as? Double
                 post.postImageUrl = dictionary["postImageUrl"] as? String
+                post.likes = dictionary["likes"] as? [String]
                 
                 self.posts.append(post)
             }
