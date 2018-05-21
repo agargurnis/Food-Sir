@@ -33,7 +33,8 @@ class CustomTabBarController: UITabBarController {
         shareNavigationController.title = "Share"
         shareNavigationController.tabBarItem.image = UIImage(named: "shareIcon")
         
-        let recommendationNavigationController = UINavigationController(rootViewController: UIViewController())
+        let recommendationController = RecommendationController()
+        let recommendationNavigationController = UINavigationController(rootViewController: recommendationController)
         recommendationNavigationController.title = "Recommend"
         recommendationNavigationController.tabBarItem.image = UIImage(named: "recommendIcon")
         
@@ -44,7 +45,7 @@ class CustomTabBarController: UITabBarController {
         viewControllers = [shareNavigationController, inspirationNavigationController, recommendationNavigationController, profileNavigationController]
         
         tabBar.isTranslucent = false
-        self.selectedIndex = 1
+        self.selectedIndex = 2
         
         let topBorder = CALayer()
         topBorder.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 0.5)
