@@ -12,15 +12,14 @@ class CustomTabBarController: UITabBarController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        navigationController?.hidesBarsOnSwipe = true 
+        self.navigationController?.isNavigationBarHidden = true
+        //navigationController?.hidesBarsOnSwipe = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Get Inspired"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(handleSignOut))
         UITabBar.appearance().tintColor = .appOrange
         
         let inspirationController = InspirationController(collectionViewLayout: UICollectionViewFlowLayout())
@@ -38,14 +37,15 @@ class CustomTabBarController: UITabBarController {
         recommendationNavigationController.title = "Recommend"
         recommendationNavigationController.tabBarItem.image = UIImage(named: "recommendIcon")
         
-        let profileNavigationController = UINavigationController(rootViewController: UIViewController())
+        let profileController = ProfileController()
+        let profileNavigationController = UINavigationController(rootViewController: profileController)
         profileNavigationController.title = "Profile"
         profileNavigationController.tabBarItem.image = UIImage(named: "profileIcon")
         
         viewControllers = [shareNavigationController, inspirationNavigationController, recommendationNavigationController, profileNavigationController]
         
         tabBar.isTranslucent = false
-        self.selectedIndex = 2
+        self.selectedIndex = 3
         
         let topBorder = CALayer()
         topBorder.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 0.5)

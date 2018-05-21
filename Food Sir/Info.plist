@@ -4,14 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>FoodSir</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>FoodSir</string>
-	<key>NSLocationUsageDescription</key>
-	<string>FoodSir</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>FoodSir</string>
+	<string>In order to be able to get directions you need to give permission to share your location.</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

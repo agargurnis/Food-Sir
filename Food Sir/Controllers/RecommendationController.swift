@@ -9,18 +9,18 @@
 import UIKit
 import MapKit
 
-class RecommendationController: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
+class RecommendationController: UIViewController, MKMapViewDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, CLLocationManagerDelegate {
     
     let cellId = "cellId"
     var sheetInMotion = false
+    let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
     var bottomSheetHeightConstant: NSLayoutConstraint?
-    //let mapView = MKMapView()
+    let locationManager = CLLocationManager()
     var mapItemArray = [MKMapItem]()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        navigationController?.isNavigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     lazy var mapView: MKMapView = {
@@ -31,7 +31,7 @@ class RecommendationController: UIViewController, MKMapViewDelegate, UITableView
     
     var customSearchBar: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        view.backgroundColor = .appGray
         return view
     }()
     
@@ -77,7 +77,7 @@ class RecommendationController: UIViewController, MKMapViewDelegate, UITableView
     
     lazy var resultTableView: UITableView = {
         let tv = UITableView()
-        tv.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        tv.backgroundColor = .appGray
         tv.delegate = self
         tv.dataSource = self
         tv.register(MapItemCell.self, forCellReuseIdentifier: cellId)
@@ -154,6 +154,22 @@ class RecommendationController: UIViewController, MKMapViewDelegate, UITableView
         view.endEditing(true)
     }
 
+    func setupLocationManager() {
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        }
+        
+        if let userLocation = locationManager.location?.coordinate {
+            
+            let region = MKCoordinateRegion(center: userLocation, span: span)
+            mapView.setRegion(region, animated: true)
+            mapView.showsUserLocation = true
+        }
+    }
     
     @objc func handleSearch() {
 
@@ -199,8 +215,7 @@ class RecommendationController: UIViewController, MKMapViewDelegate, UITableView
                 self.mapView.addAnnotation(annotation)
                 
                 let searchRegionCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(resultLat, resultLong)
-                let span = MKCoordinateSpanMake(0.015, 0.015)
-                let searchRegion = MKCoordinateRegionMake(searchRegionCoordinate, span)
+                let searchRegion = MKCoordinateRegionMake(searchRegionCoordinate, self.span)
                 
                 self.mapView.setRegion(searchRegion, animated: true)
                 self.mapItemArray.append(item)
@@ -212,12 +227,31 @@ class RecommendationController: UIViewController, MKMapViewDelegate, UITableView
         }
     }
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if (annotation.isKind(of: MKUserLocation.self)) {
+            return nil
+        } else {
+            let annotationView = MKMarkerAnnotationView()
+            annotationView.markerTintColor = .appOrange
+            return annotationView
+        }
+
+    }
+    
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+////        let span = MKCoordinateSpanMake(0.015,  0.015)
+////        let centerLocation = locations[0].coordinate
+////        let region = MKCoordinateRegion(center: centerLocation, span: span)
+////        mapView.setRegion(region, animated: true)
+////        mapView.showsUserLocation = true
+//    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
         observeKeyboardNotifications()
-        
+        setupLocationManager()
     }
     
     func setupViews() {
@@ -282,7 +316,6 @@ class RecommendationController: UIViewController, MKMapViewDelegate, UITableView
         let resultLat = searchCoordinate.latitude
         
         let searchRegionCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2DMake(resultLat, resultLong)
-        let span = MKCoordinateSpanMake(0.015, 0.015)
         let searchRegion = MKCoordinateRegionMake(searchRegionCoordinate, span)
         
         self.mapView.setRegion(searchRegion, animated: true)

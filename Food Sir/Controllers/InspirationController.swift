@@ -16,14 +16,14 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
     
     let backgroundView: UIView = {
         let iv = UIView()
-        iv.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        iv.backgroundColor = .appGray
         return iv
     }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        navigationController?.hidesBarsOnSwipe = true
+        self.navigationController?.isNavigationBarHidden = true
+        //navigationController?.hidesBarsOnSwipe = true
     }
     
     func loadPosts() {
@@ -57,7 +57,7 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
         loadPosts()
         
         collectionView?.keyboardDismissMode = .onDrag
-        collectionView?.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0)
+        //collectionView?.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0)
         collectionView?.backgroundView = backgroundView
         collectionView?.alwaysBounceVertical = true
         collectionView?.register(PostCell.self, forCellWithReuseIdentifier: postCellId)

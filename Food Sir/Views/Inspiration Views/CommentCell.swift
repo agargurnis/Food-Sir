@@ -24,7 +24,7 @@ class CommentCell: UICollectionViewCell {
     
     let bubbleView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        view.backgroundColor = .appGray
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         return view

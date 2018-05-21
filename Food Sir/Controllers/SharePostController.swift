@@ -13,13 +13,13 @@ class SharePostController: UICollectionViewController, UICollectionViewDelegateF
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        navigationController?.hidesBarsOnSwipe = true
+        self.navigationController?.isNavigationBarHidden = true
+        //navigationController?.hidesBarsOnSwipe = true
     }
     
     let backgroundView: UIView = {
         let iv = UIView()
-        iv.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        iv.backgroundColor = .appGray
         return iv
     }()
     
@@ -224,7 +224,7 @@ class SharePostController: UICollectionViewController, UICollectionViewDelegateF
         collectionView?.addSubview(locationTexView)
         collectionView?.addSubview(shareButon)
         
-        _ = mealLocationSegmentedControl.anchor(view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 50, bottomConstant: 0, rightConstant: 50, widthConstant: 0, heightConstant: 30)
+        _ = mealLocationSegmentedControl.anchor(view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 25, leftConstant: 50, bottomConstant: 0, rightConstant: 50, widthConstant: 0, heightConstant: 30)
         
         _ = postContainer.anchor(mealLocationSegmentedControl.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 15, leftConstant: 10, bottomConstant: 0, rightConstant: 10, widthConstant: 0, heightConstant: 100)
         

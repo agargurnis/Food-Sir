@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         window?.rootViewController = OnboardingScreenController()
         
-        UINavigationBar.appearance().barTintColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        UINavigationBar.appearance().barTintColor = .appGray
         
 //        let statusBarBackgroundView = UIView()
 //        statusBarBackgroundView.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
