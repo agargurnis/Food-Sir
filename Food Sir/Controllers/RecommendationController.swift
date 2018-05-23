@@ -237,14 +237,6 @@ class RecommendationController: UIViewController, MKMapViewDelegate, UITableView
         }
 
     }
-    
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-////        let span = MKCoordinateSpanMake(0.015,  0.015)
-////        let centerLocation = locations[0].coordinate
-////        let region = MKCoordinateRegion(center: centerLocation, span: span)
-////        mapView.setRegion(region, animated: true)
-////        mapView.showsUserLocation = true
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

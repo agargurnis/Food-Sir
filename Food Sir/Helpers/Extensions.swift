@@ -62,6 +62,7 @@ extension UIColor {
     
     static let appOrange = UIColor.rgb(red: 247, green: 154, blue: 27)
     static let appGray = UIColor.rgb(red: 240, green: 240, blue: 240)
+    static let appDarkGray = UIColor.rgb(red: 165, green: 165, blue: 165)
     
     static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
         return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)

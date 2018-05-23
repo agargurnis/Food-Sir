@@ -8,8 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		22E3CD3E55FB0A7CE4AC4AAE /* Pods_Food_Sir.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5B4F7FFABA251D77909EAAF /* Pods_Food_Sir.framework */; };
+		BA38DE9620B5A40A001F7DE0 /* CommentCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA38DE9520B5A40A001F7DE0 /* CommentCollectionView.swift */; };
+		BA38DE9820B5A46E001F7DE0 /* ProfileMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA38DE9720B5A46E001F7DE0 /* ProfileMapView.swift */; };
+		BA38DE9A20B5A5F5001F7DE0 /* RecipeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA38DE9920B5A5F5001F7DE0 /* RecipeCollectionView.swift */; };
 		BA856AD420AE4940001A0939 /* RecommendationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA856AD320AE4940001A0939 /* RecommendationController.swift */; };
 		BA856AD820B23B60001A0939 /* MapItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA856AD720B23B60001A0939 /* MapItemCell.swift */; };
+		BA856ADC20B4320B001A0939 /* BadgeBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA856ADB20B4320B001A0939 /* BadgeBarView.swift */; };
+		BA856ADE20B4321B001A0939 /* PostTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA856ADD20B4321B001A0939 /* PostTabBarView.swift */; };
+		BA856AE020B43223001A0939 /* PostCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA856ADF20B43223001A0939 /* PostCollectionView.swift */; };
+		BA856AE220B433F8001A0939 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA856AE120B433F8001A0939 /* UserInfoView.swift */; };
 		BA86658F2086349E00CFA679 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA86658E2086349E00CFA679 /* AppDelegate.swift */; };
 		BA8665942086349E00CFA679 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA8665922086349E00CFA679 /* Main.storyboard */; };
 		BA8665962086349F00CFA679 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA8665952086349F00CFA679 /* Assets.xcassets */; };
@@ -38,8 +45,15 @@
 
 /* Begin PBXFileReference section */
 		07564DBC10A134DEB48CB108 /* Pods-Food Sir.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Food Sir.release.xcconfig"; path = "Pods/Target Support Files/Pods-Food Sir/Pods-Food Sir.release.xcconfig"; sourceTree = "<group>"; };
+		BA38DE9520B5A40A001F7DE0 /* CommentCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollectionView.swift; sourceTree = "<group>"; };
+		BA38DE9720B5A46E001F7DE0 /* ProfileMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMapView.swift; sourceTree = "<group>"; };
+		BA38DE9920B5A5F5001F7DE0 /* RecipeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCollectionView.swift; sourceTree = "<group>"; };
 		BA856AD320AE4940001A0939 /* RecommendationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationController.swift; sourceTree = "<group>"; };
 		BA856AD720B23B60001A0939 /* MapItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapItemCell.swift; sourceTree = "<group>"; };
+		BA856ADB20B4320B001A0939 /* BadgeBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeBarView.swift; sourceTree = "<group>"; };
+		BA856ADD20B4321B001A0939 /* PostTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTabBarView.swift; sourceTree = "<group>"; };
+		BA856ADF20B43223001A0939 /* PostCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionView.swift; sourceTree = "<group>"; };
+		BA856AE120B433F8001A0939 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		BA86658B2086349E00CFA679 /* Food Sir.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food Sir.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA86658E2086349E00CFA679 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA8665932086349E00CFA679 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -88,6 +102,20 @@
 				D5B4F7FFABA251D77909EAAF /* Pods_Food_Sir.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA856ADA20B431E4001A0939 /* Profile Views */ = {
+			isa = PBXGroup;
+			children = (
+				BA856ADB20B4320B001A0939 /* BadgeBarView.swift */,
+				BA856ADD20B4321B001A0939 /* PostTabBarView.swift */,
+				BA856ADF20B43223001A0939 /* PostCollectionView.swift */,
+				BA856AE120B433F8001A0939 /* UserInfoView.swift */,
+				BA38DE9520B5A40A001F7DE0 /* CommentCollectionView.swift */,
+				BA38DE9720B5A46E001F7DE0 /* ProfileMapView.swift */,
+				BA38DE9920B5A5F5001F7DE0 /* RecipeCollectionView.swift */,
+			);
+			path = "Profile Views";
 			sourceTree = "<group>";
 		};
 		BA8665822086349E00CFA679 = {
@@ -162,6 +190,7 @@
 		BA8665AD20863E0900CFA679 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BA856ADA20B431E4001A0939 /* Profile Views */,
 				BA86665520A24C3900CFA679 /* Initial Views */,
 				BA86665420A24C0000CFA679 /* Inspiration Views */,
 				BA856AD720B23B60001A0939 /* MapItemCell.swift */,
@@ -352,11 +381,15 @@
 				BA8665AF20863E3300CFA679 /* OnboardingScreen.swift in Sources */,
 				BA8665A920863DB300CFA679 /* UserDefaults.swift in Sources */,
 				BA86663720954B9600CFA679 /* Post.swift in Sources */,
+				BA38DE9820B5A46E001F7DE0 /* ProfileMapView.swift in Sources */,
+				BA856ADC20B4320B001A0939 /* BadgeBarView.swift in Sources */,
 				BA856AD820B23B60001A0939 /* MapItemCell.swift in Sources */,
 				BA866653209DC18700CFA679 /* CommentViewCell.swift in Sources */,
+				BA856AE020B43223001A0939 /* PostCollectionView.swift in Sources */,
 				BA866645209A6BE100CFA679 /* ImageCell.swift in Sources */,
 				BA86665A20A24D3C00CFA679 /* SharePostController.swift in Sources */,
 				BA8665A520863D6300CFA679 /* OnboardingScreenController.swift in Sources */,
+				BA38DE9620B5A40A001F7DE0 /* CommentCollectionView.swift in Sources */,
 				BA866643209A6AA500CFA679 /* GroceryCell.swift in Sources */,
 				BA8666312093C76900CFA679 /* CustomTabBarController.swift in Sources */,
 				BA8666392096597100CFA679 /* PostCell.swift in Sources */,
@@ -364,9 +397,12 @@
 				BA8665B120863E5000CFA679 /* OnboardingCell.swift in Sources */,
 				BA86658F2086349E00CFA679 /* AppDelegate.swift in Sources */,
 				BA86664D209B7A4D00CFA679 /* Comment.swift in Sources */,
+				BA38DE9A20B5A5F5001F7DE0 /* RecipeCollectionView.swift in Sources */,
 				BA866651209DC10700CFA679 /* CommentCell.swift in Sources */,
 				BA8665AB20863DEE00CFA679 /* LoginController.swift in Sources */,
+				BA856ADE20B4321B001A0939 /* PostTabBarView.swift in Sources */,
 				BA86662F2092086F00CFA679 /* User.swift in Sources */,
+				BA856AE220B433F8001A0939 /* UserInfoView.swift in Sources */,
 				BA866635209513A900CFA679 /* ProfileController.swift in Sources */,
 				BA856AD420AE4940001A0939 /* RecommendationController.swift in Sources */,
 			);
