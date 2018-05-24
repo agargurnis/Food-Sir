@@ -148,11 +148,24 @@ class CommentViewCell: UICollectionViewCell, UITextFieldDelegate, UICollectionVi
         
         _ = commentCollectionView.anchor(topSeperatorLine.bottomAnchor, left: commentView.leftAnchor, bottom: bottomSeperatorLine.topAnchor, right: commentView.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
+        
+        
+        
+        
+        
+        
+        
+        // this might be the problem
+        
         DispatchQueue.main.async {
             if let postID = self.postId {
                 self.observeComments(forPost: postID)
             }
         }
+        
+        
+        
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

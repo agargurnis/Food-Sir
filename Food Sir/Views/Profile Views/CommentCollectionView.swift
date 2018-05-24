@@ -20,13 +20,13 @@ class CommentCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
     lazy var commentCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        cv.register(ProfileCommentCell.self, forCellWithReuseIdentifier: cellId)
         cv.backgroundColor = .appGray
         cv.dataSource = self
         cv.delegate = self
         return cv
     }()
-    
+    // instead of having 2 cells next to each other just have a cell that strecthes from edge to edge and make it look like half/half
     func setupCell() {
         addSubview(commentCollectionView)
         
@@ -38,8 +38,8 @@ class CommentCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let sqaure = (frame.width / 2) - 2
-        return CGSize(width: sqaure, height: sqaure)
+        let height = (frame.width / 2) - 2
+        return CGSize(width: frame.width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -55,9 +55,67 @@ class CommentCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ProfileCommentCell
         cell.backgroundColor = .white
         return cell
     }
+}
+
+class ProfileCommentCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
+
+    let cellId = "cellId"
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupCell()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(named: "salmon")
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
+    lazy var commentCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
+        cv.delegate = self
+        cv.dataSource = self
+        cv.backgroundColor = .white
+        cv.contentInset = UIEdgeInsetsMake(8, 0, 8, 0)
+        return cv
+    }()
+    
+    func setupCell() {
+        
+        addSubview(imageView)
+        addSubview(commentCollectionView)
+        
+       _ = imageView.anchor(self.topAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: nil, topConstant: 5, leftConstant: 0, bottomConstant: 5, rightConstant: 0, widthConstant: self.frame.width / 2, heightConstant: 0)
+        
+        _ = commentCollectionView.anchor(self.topAnchor, left: imageView.rightAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 5, leftConstant: 10, bottomConstant: 5, rightConstant: 5, widthConstant: 0, heightConstant: 0)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: frame.width, height: 15)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 25
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        cell.backgroundColor = .appGray
+        return cell
+    }
+    
 }
 

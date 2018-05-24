@@ -11,7 +11,7 @@ import UIKit
 class PostTabBar: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     
     let cellId = "cellId"
-    let imageNames = ["smoothVista", "sharpComment", "recipeBook", "myMap"]
+    let imageNames = ["foodPictures", "sharpComment", "recipeBook", "myMap"]
     var profileController: ProfileController?
     var horizontalBarLeftAnchorConstraint: NSLayoutConstraint?
     
@@ -29,6 +29,8 @@ class PostTabBar: UIView, UICollectionViewDataSource, UICollectionViewDelegateFl
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupTabBar()
+        let selectedIndexPath = NSIndexPath(item: 0, section: 0)
+        tabBarCollectionView.selectItem(at: selectedIndexPath as IndexPath, animated: false, scrollPosition: [])
         setupHorizontalBar()
     }
     

@@ -28,10 +28,10 @@ class ProfileController: UIViewController, UICollectionViewDelegate, UICollectio
         return view
     }()
     
-    var badgeContainer: BadgeBarView = {
-        let bbv = BadgeBarView()
-        return bbv
-    }()
+//    var badgeContainer: BadgeBarView = {
+//        let bbv = BadgeBarView()
+//        return bbv
+//    }()
     
     lazy var postTabBar: PostTabBar = {
         let ptb = PostTabBar()
@@ -69,25 +69,25 @@ class ProfileController: UIViewController, UICollectionViewDelegate, UICollectio
         super.viewDidLoad()
         
         view.addSubview(profileInfoContainer)
-        view.addSubview(badgeContainer)
-        view.addSubview(seperatorLine)
+//        view.addSubview(badgeContainer)
+//        view.addSubview(seperatorLine)
         view.addSubview(postTabBar)
         view.addSubview(slidingCollectionView)
         
         _ = profileInfoContainer.anchor(view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 200)
         
-        _ = badgeContainer.anchor(profileInfoContainer.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 50)
+//        _ = badgeContainer.anchor(profileInfoContainer.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 50)
         
-        _ = seperatorLine.anchor(badgeContainer.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 5)
+//        _ = seperatorLine.anchor(badgeContainer.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 5)
         
-        tabBarTopAnchorConstant = postTabBar.anchor(seperatorLine.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 50).first
+        tabBarTopAnchorConstant = postTabBar.anchor(profileInfoContainer.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 50).first
         
         _ = slidingCollectionView.anchor(postTabBar.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
     }
     
     func expandCollectionView() {
         mapViewIsSelected = true
-        tabBarTopAnchorConstant?.constant = -255
+        tabBarTopAnchorConstant?.constant = -200
         slidingCollectionView.collectionViewLayout.invalidateLayout()
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.slidingCollectionView.layoutIfNeeded()
@@ -156,14 +156,9 @@ class ProfileController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var height: CGFloat = view.frame.height - 330
-
-        if mapViewIsSelected == true {
-           height = view.frame.height - 75
-        } else {
-            height = view.frame.height - 330
-        }
         
-        return CGSize(width: view.frame.width, height: height)
+        slidingCollectionView.sizeToFit()
+        
+        return CGSize(width: view.frame.width, height: slidingCollectionView.frame.height - 5)
     }
 }

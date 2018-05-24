@@ -57,7 +57,6 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
         loadPosts()
         
         collectionView?.keyboardDismissMode = .onDrag
-        //collectionView?.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0)
         collectionView?.backgroundView = backgroundView
         collectionView?.alwaysBounceVertical = true
         collectionView?.register(PostCell.self, forCellWithReuseIdentifier: postCellId)

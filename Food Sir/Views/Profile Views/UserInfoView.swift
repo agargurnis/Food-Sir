@@ -84,9 +84,11 @@ class UserInfoView: UIView {
         return label
     }()
     
-    let labelContainer: UIView = {
-        let view = UIView()
-        return view
+    let labelStackView: UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .horizontal
+        sv.distribution = .fillEqually
+        return sv
     }()
     
     override init(frame: CGRect) {
@@ -102,25 +104,17 @@ class UserInfoView: UIView {
     func setupViews() {
         addSubview(profileImageView)
         addSubview(profileNameLabel)
-        addSubview(labelContainer)
-        labelContainer.addSubview(postCountLabel)
-        labelContainer.addSubview(placeCountLabel)
-        labelContainer.addSubview(badgeCountLabel)
-        labelContainer.addSubview(followerCountLabel)
+        addSubview(labelStackView)
+        labelStackView.addArrangedSubview(postCountLabel)
+        labelStackView.addArrangedSubview(placeCountLabel)
+        labelStackView.addArrangedSubview(badgeCountLabel)
+        labelStackView.addArrangedSubview(followerCountLabel)
         
         _ = profileImageView.anchor(self.topAnchor, left: self.leftAnchor, bottom: nil, right: nil, topConstant: 20, leftConstant: 10, bottomConstant: 0, rightConstant: 0, widthConstant: 100, heightConstant: 100)
         
         _ = profileNameLabel.anchor(self.topAnchor, left: profileImageView.rightAnchor, bottom: nil, right: nil, topConstant: 10, leftConstant: 10, bottomConstant: 0, rightConstant: 0, widthConstant: 500, heightConstant: 100)
         
-        _ = labelContainer.anchor(profileImageView.bottomAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 10, leftConstant: 10, bottomConstant: 10, rightConstant: 10, widthConstant: 0, heightConstant: 0)
-
-        _ = postCountLabel.anchor(labelContainer.topAnchor, left: labelContainer.leftAnchor, bottom: labelContainer.bottomAnchor, right: nil, topConstant: 5, leftConstant: 30, bottomConstant: 5, rightConstant: 0, widthConstant: 0, heightConstant: 0)
-
-        _ = placeCountLabel.anchor(labelContainer.topAnchor, left: postCountLabel.rightAnchor, bottom: labelContainer.bottomAnchor, right: nil, topConstant: 5, leftConstant: 30, bottomConstant: 5, rightConstant: 0, widthConstant: 0, heightConstant: 0)
-
-        _ = badgeCountLabel.anchor(labelContainer.topAnchor, left: placeCountLabel.rightAnchor, bottom: labelContainer.bottomAnchor, right: nil, topConstant: 5, leftConstant: 30, bottomConstant: 5, rightConstant: 0, widthConstant: 0, heightConstant: 0)
-
-        _ = followerCountLabel.anchor(labelContainer.topAnchor, left: badgeCountLabel.rightAnchor, bottom: labelContainer.bottomAnchor, right: nil, topConstant: 5, leftConstant: 30, bottomConstant: 5, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+        _ = labelStackView.anchor(profileImageView.bottomAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 10, leftConstant: 5, bottomConstant: 10, rightConstant: 10, widthConstant: 0, heightConstant: 0)
         
     }
     
