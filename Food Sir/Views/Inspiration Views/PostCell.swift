@@ -81,13 +81,11 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
                 
                 if let likeCount = dictionary["likes"] as? [String] {
                     self.imageCell.likeButtonLabel.text = String(likeCount.count)
-                    //print(likeCount.count)
                 } else {
                     self.imageCell.likeButtonLabel.text = "0"
                 }
-                if let commentCount = dictionary["comments"] as? [String: AnyObject] {
-                    self.imageCell.commentButtonLabel.text = String(commentCount.count)
-                    //print(commentCount.count)
+                if let commentCount = dictionary["commentCount"] as? Int {
+                    self.imageCell.commentButtonLabel.text = String(commentCount)
                 } else {
                     self.imageCell.commentButtonLabel.text = "0"
                 }
@@ -138,7 +136,7 @@ class PostCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionVi
         } else {
             self.imageCell.likeButtonLabel.text = "0"
         }
-        if let commentCount = self.post?.comments?.count {
+        if let commentCount = self.post?.commentCount {
             self.imageCell.commentButtonLabel.text = String(commentCount)
         } else {
             self.imageCell.commentButtonLabel.text = "0"

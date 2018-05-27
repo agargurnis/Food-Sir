@@ -78,47 +78,56 @@ class CommentViewCell: UICollectionViewCell, UITextFieldDelegate, UICollectionVi
     
     @objc func handleSend() {
         if let postID = postId {
-            let ref = Database.database().reference().child("posts").child(postID).child("comments")
+            let ref = Database.database().reference().child("comments").child(postID)
             let childRef = ref.childByAutoId()
             let userId = Auth.auth().currentUser!.uid
             let timestamp: Double = Double(NSDate().timeIntervalSince1970)
             
-            let userRef = Database.database().reference().child("users").child(userId)
-            userRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                if let dictionary = snapshot.value as? [String: AnyObject] {
-                    if let userProfileImageUrl = dictionary["profileImageUrl"] as? String {
-                        let values: [String: Any] = ["text": self.inputTextField.text!, "userId": userId, "timestamp": timestamp, "userProfileImageUrl": userProfileImageUrl]
-                        
-                        childRef.updateChildValues(values)
-                        self.inputTextField.text = nil
-                    }
-                }
-            }, withCancel: nil)
+            let values: [String: Any] = ["text": self.inputTextField.text!, "timestamp": timestamp, "userId": userId]
             
-            DispatchQueue.main.async {
-                self.delegate?.updateLabels(forPost: postID)
+            childRef.updateChildValues(values)
+            self.inputTextField.text = nil
+            
+            let postRef = Database.database().reference().child("posts").child(postID)
+            postRef.observeSingleEvent(of: .value) { (snapshot) in
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    let commentCount = dictionary["commentCount"] as! Int
+                    let newCount = commentCount + 1
+                    postRef.updateChildValues(["commentCount" : newCount])
+                }
+                
+                DispatchQueue.main.async {
+                    self.delegate?.updateLabels(forPost: postID)
+                }
             }
         }
     }
     
     func observeComments(forPost: String) {
-        let ref = Database.database().reference().child("posts").child(forPost).child("comments")
+        let ref = Database.database().reference().child("comments").child(forPost)
         ref.observe(.childAdded, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let comment = Comment()
                 comment.userId = dictionary["userId"] as? String
                 comment.text = dictionary["text"] as? String
                 comment.timestamp = dictionary["timestamp"] as? Double
-                comment.userProfileImageUrl = dictionary["userProfileImageUrl"] as? String
 
-                self.comments.append(comment)
-
-                DispatchQueue.main.async {
-                    self.commentCollectionView.reloadData()
+                if let userId = dictionary["userId"] as? String {
+                    let userRef = Database.database().reference().child("users").child(userId)
+                    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                        if let userInfo = snapshot.value as? [String: AnyObject] {
+                            comment.userProfileImageUrl = userInfo["profileImageUrl"] as? String
+                        }
+                        self.comments.append(comment)
+                        
+                        DispatchQueue.main.async {
+                            self.commentCollectionView.reloadData()
+                        }
+                    })
                 }
             }
 
-        }, withCancel: nil)
+        })
     }
     
     override init(frame: CGRect) {
@@ -148,24 +157,11 @@ class CommentViewCell: UICollectionViewCell, UITextFieldDelegate, UICollectionVi
         
         _ = commentCollectionView.anchor(topSeperatorLine.bottomAnchor, left: commentView.leftAnchor, bottom: bottomSeperatorLine.topAnchor, right: commentView.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
         
-        
-        
-        
-        
-        
-        
-        
-        // this might be the problem
-        
         DispatchQueue.main.async {
             if let postID = self.postId {
                 self.observeComments(forPost: postID)
             }
-        }
-        
-        
-        
-        
+        }  
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

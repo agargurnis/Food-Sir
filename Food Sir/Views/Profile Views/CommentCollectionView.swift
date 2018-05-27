@@ -26,7 +26,7 @@ class CommentCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
         cv.delegate = self
         return cv
     }()
-    // instead of having 2 cells next to each other just have a cell that strecthes from edge to edge and make it look like half/half
+    
     func setupCell() {
         addSubview(commentCollectionView)
         

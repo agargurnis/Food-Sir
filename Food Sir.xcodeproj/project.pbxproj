@@ -104,6 +104,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BA38DE9B20B81D82001F7DE0 /* Recommendation Views */ = {
+			isa = PBXGroup;
+			children = (
+				BA856AD720B23B60001A0939 /* MapItemCell.swift */,
+			);
+			path = "Recommendation Views";
+			sourceTree = "<group>";
+		};
 		BA856ADA20B431E4001A0939 /* Profile Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,10 +198,10 @@
 		BA8665AD20863E0900CFA679 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BA38DE9B20B81D82001F7DE0 /* Recommendation Views */,
 				BA856ADA20B431E4001A0939 /* Profile Views */,
 				BA86665520A24C3900CFA679 /* Initial Views */,
 				BA86665420A24C0000CFA679 /* Inspiration Views */,
-				BA856AD720B23B60001A0939 /* MapItemCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

@@ -16,7 +16,6 @@ class ProfileController: UIViewController, UICollectionViewDelegate, UICollectio
     let recipeCellId = "recipeCellId"
     let profileMapView = ProfileMapViewCell()
     var tabBarTopAnchorConstant: NSLayoutConstraint?
-    var mapViewIsSelected = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -28,14 +27,10 @@ class ProfileController: UIViewController, UICollectionViewDelegate, UICollectio
         return view
     }()
     
-//    var badgeContainer: BadgeBarView = {
-//        let bbv = BadgeBarView()
-//        return bbv
-//    }()
-    
     lazy var postTabBar: PostTabBar = {
         let ptb = PostTabBar()
         ptb.profileController = self
+        ptb.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(wasDragged(pan:))))
         return ptb
     }()
     
@@ -69,16 +64,10 @@ class ProfileController: UIViewController, UICollectionViewDelegate, UICollectio
         super.viewDidLoad()
         
         view.addSubview(profileInfoContainer)
-//        view.addSubview(badgeContainer)
-//        view.addSubview(seperatorLine)
         view.addSubview(postTabBar)
         view.addSubview(slidingCollectionView)
         
         _ = profileInfoContainer.anchor(view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 200)
-        
-//        _ = badgeContainer.anchor(profileInfoContainer.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 50)
-        
-//        _ = seperatorLine.anchor(badgeContainer.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 5)
         
         tabBarTopAnchorConstant = postTabBar.anchor(profileInfoContainer.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 50).first
         
@@ -86,7 +75,6 @@ class ProfileController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     func expandCollectionView() {
-        mapViewIsSelected = true
         tabBarTopAnchorConstant?.constant = -200
         slidingCollectionView.collectionViewLayout.invalidateLayout()
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -96,7 +84,6 @@ class ProfileController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     func shrinkCollectionView() {
-        mapViewIsSelected = false
         tabBarTopAnchorConstant?.constant = 0
         slidingCollectionView.collectionViewLayout.invalidateLayout()
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -141,7 +128,7 @@ class ProfileController: UIViewController, UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identifier: String
-        print(indexPath.item)
+        
         if indexPath.item == 1 {
             identifier = commentCellId
         } else if indexPath.item == 2 {
@@ -160,5 +147,16 @@ class ProfileController: UIViewController, UICollectionViewDelegate, UICollectio
         slidingCollectionView.sizeToFit()
         
         return CGSize(width: view.frame.width, height: slidingCollectionView.frame.height - 5)
+    }
+
+    @objc func wasDragged(pan: UIPanGestureRecognizer) {
+        let direction = pan.velocity(in: view).y
+        
+        if direction > 0 {
+            shrinkCollectionView()
+        } else {
+            expandCollectionView()
+        }
+        
     }
 }

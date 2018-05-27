@@ -120,22 +120,10 @@ class SharePostController: UICollectionViewController, UICollectionViewDelegateF
     @objc func saveShareInStorage() {
         let userId = Auth.auth().currentUser!.uid
         let timestamp: Double = Double(NSDate().timeIntervalSince1970)
-        let rawString = ingredientTexView.text.trimmingCharacters(in: .whitespaces)
-        let ingredientArray = rawString.components(separatedBy: ",")
+        let ingredientArray = ingredientTexView.text.components(separatedBy: ", ")
         let imageName = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child("post_images").child("\(imageName).jpg")
-        var userName: String?
-        var userLocation: String?
-        var userProfileImageUrl: String?
-        
-        let userRef = Database.database().reference().child("users").child(userId)
-        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                userName = dictionary["name"] as? String
-                userLocation = dictionary["location"] as? String
-                userProfileImageUrl = dictionary["profileImageUrl"] as? String
-            }
-        }, withCancel: nil)
+
         
         if let uploadData = UIImageJPEGRepresentation(imageView.image!, 0.1) {
             storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
@@ -144,7 +132,8 @@ class SharePostController: UICollectionViewController, UICollectionViewDelegateF
                     return
                 }
                 if let postImageUrl = metadata?.downloadURL()?.absoluteString {
-                    let values: [String : Any] = ["postDescriptionText": self.descriptionTextView.text!, "userName": userName!, "userLocation": userLocation!, "userProfileImageUrl": userProfileImageUrl!, "timestamp": timestamp, "ingredientList": ingredientArray, "postImageUrl": postImageUrl]
+                    let values: [String : Any] = ["userId": userId, "postDescriptionText": self.descriptionTextView.text!, "postImageUrl": postImageUrl, "timestamp": timestamp, "ingredientList": ingredientArray, "commentCount": 0]
+
                     self.saveShareInDatabase(values: values) {
                         DispatchQueue.main.async {
                             let appDelegate = UIApplication.shared.delegate as! AppDelegate

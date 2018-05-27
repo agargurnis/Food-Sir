@@ -45,7 +45,7 @@ class CustomTabBarController: UITabBarController {
         viewControllers = [shareNavigationController, inspirationNavigationController, recommendationNavigationController, profileNavigationController]
         
         tabBar.isTranslucent = false
-        self.selectedIndex = 3
+        self.selectedIndex = 1
         
         let topBorder = CALayer()
         topBorder.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 0.5)

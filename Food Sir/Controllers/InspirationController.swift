@@ -31,25 +31,32 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
         ref.observe(.childAdded, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let post = Post()
-
                 post.postId = snapshot.key
-                post.comments = dictionary["comments"] as? [String: AnyObject]
                 post.ingredientList = dictionary["ingredientList"] as? [String]
                 post.postDescriptionText = dictionary["postDescriptionText"] as? String
-                post.userName = dictionary["userName"] as? String
-                post.userLocation = dictionary["userLocation"] as? String
-                post.userProfileImageUrl = dictionary["userProfileImageUrl"] as? String
                 post.timestamp = dictionary["timestamp"] as? Double
                 post.postImageUrl = dictionary["postImageUrl"] as? String
                 post.likes = dictionary["likes"] as? [String]
+                post.commentCount = dictionary["commentCount"] as? Int
                 
-                self.posts.append(post)
+                if let userId = dictionary["userId"] as? String {
+                    let userRef = Database.database().reference().child("users").child(userId)
+                    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                        if let userInfo = snapshot.value as? [String: AnyObject] {
+                            print(userInfo)
+                            post.userName = userInfo["name"] as? String
+                            post.userLocation = userInfo["location"] as? String
+                            post.userProfileImageUrl = userInfo["profileImageUrl"] as? String
+                        }
+                        self.posts.append(post)
+                        
+                        DispatchQueue.main.async {
+                            self.collectionView?.reloadData()
+                        }
+                    })
+                }
             }
-            
-            DispatchQueue.main.async {
-                self.collectionView?.reloadData()
-            }
-        }, withCancel: nil)
+        })
     }
     
     override func viewDidLoad() {
