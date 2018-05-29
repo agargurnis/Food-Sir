@@ -7,25 +7,63 @@
 //
 
 import UIKit
+import Firebase
 
 class CommentCollectionViewCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
     
     let cellId = "cellId"
+    var commentPosts = [Post]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCell()
+        loadPosts()
     }
     
     lazy var commentCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.register(ProfileCommentCell.self, forCellWithReuseIdentifier: cellId)
+        cv.register(CommentCollectionViewCellCell.self, forCellWithReuseIdentifier: cellId)
         cv.backgroundColor = .appGray
         cv.dataSource = self
         cv.delegate = self
         return cv
     }()
+    
+    func loadPosts() {
+        let userId = Auth.auth().currentUser!.uid
+        let ref = Database.database().reference().child("comments")
+        
+        ref.observe(.value) { (snapshot) in
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                for child in dictionary {
+                    let commentPost = Post()
+                    let postId = child.key
+                    
+                    let commentChildRef = Database.database().reference().child("comments").child(postId)
+                    commentChildRef.observe(.childAdded, with: { (snapshot) in
+                        if let dictionary = snapshot.value as? [String: AnyObject] {
+                            if userId == dictionary["userId"] as? String {
+                                
+                                let postChildRef = Database.database().reference().child("posts").child(postId)
+                                postChildRef.observe(.value, with: { (snapshot) in
+                                    if let dict = snapshot.value as? [String: AnyObject] {
+                                        commentPost.postImageUrl = dict["postImageUrl"] as? String
+                                        
+                                        self.commentPosts.append(commentPost)
+                                        
+                                        DispatchQueue.main.async {
+                                            self.commentCollectionView.reloadData()
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            }
+        }
+    }
     
     func setupCell() {
         addSubview(commentCollectionView)
@@ -38,8 +76,8 @@ class CommentCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = (frame.width / 2) - 2
-        return CGSize(width: frame.width, height: height)
+        let sqaure = (frame.width / 4) - 5
+        return CGSize(width: sqaure, height: sqaure)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -51,19 +89,25 @@ class CommentCollectionViewCell: UICollectionViewCell, UICollectionViewDataSourc
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return commentPosts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ProfileCommentCell
-        cell.backgroundColor = .white
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! CommentCollectionViewCellCell
+        cell.commentPost = commentPosts[indexPath.item]
         return cell
     }
 }
 
-class ProfileCommentCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate {
-
-    let cellId = "cellId"
+class CommentCollectionViewCellCell: UICollectionViewCell {
+    
+    var commentPost: Post? {
+        didSet {
+            if let postImageUrl = commentPost?.postImageUrl {
+                self.imageView.loadImageUsingCacheWithUrlString(urlString: postImageUrl)
+            }
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -76,45 +120,15 @@ class ProfileCommentCell: UICollectionViewCell, UICollectionViewDataSource, UICo
     
     let imageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(named: "salmon")
+        iv.image = UIImage(named: "curry")
         iv.contentMode = .scaleAspectFit
         return iv
     }()
     
-    lazy var commentCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-        cv.delegate = self
-        cv.dataSource = self
-        cv.backgroundColor = .white
-        cv.contentInset = UIEdgeInsetsMake(8, 0, 8, 0)
-        return cv
-    }()
-    
     func setupCell() {
-        
         addSubview(imageView)
-        addSubview(commentCollectionView)
         
-       _ = imageView.anchor(self.topAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: nil, topConstant: 5, leftConstant: 0, bottomConstant: 5, rightConstant: 0, widthConstant: self.frame.width / 2, heightConstant: 0)
-        
-        _ = commentCollectionView.anchor(self.topAnchor, left: imageView.rightAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 5, leftConstant: 10, bottomConstant: 5, rightConstant: 5, widthConstant: 0, heightConstant: 0)
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: frame.width, height: 15)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 25
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-        cell.backgroundColor = .appGray
-        return cell
+        _ = imageView.anchor(self.topAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
     }
     
 }

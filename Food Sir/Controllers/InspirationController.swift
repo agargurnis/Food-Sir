@@ -43,7 +43,6 @@ class InspirationController: UICollectionViewController, UICollectionViewDelegat
                     let userRef = Database.database().reference().child("users").child(userId)
                     userRef.observeSingleEvent(of: .value, with: { (snapshot) in
                         if let userInfo = snapshot.value as? [String: AnyObject] {
-                            print(userInfo)
                             post.userName = userInfo["name"] as? String
                             post.userLocation = userInfo["location"] as? String
                             post.userProfileImageUrl = userInfo["profileImageUrl"] as? String
